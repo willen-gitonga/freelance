@@ -42,16 +42,14 @@
   <b>
   <span class="step-links">
       {% if available_jobs.has_previous %}
-          <a href="?page=1">&laquo; First</a>
-          <a href="?page={{ available_jobs.previous_page_number }}">Previous</a>
+          <a href="?page={{ available_jobs.previous_page_number }}">&laquo; Previous</a>
       {% endif %}
 
      
 
       {% if available_jobs.has_next %}
           
-          <a href="?page={{ available_jobs.paginator.num_pages }}">Last &raquo;</a>
-          <a href="?page={{ available_jobs.next_page_number }}">Next</a>
+          <a href="?page={{ available_jobs.next_page_number }}">Next &raquo;</a>
       {% endif %}
   </span>
   </b>
