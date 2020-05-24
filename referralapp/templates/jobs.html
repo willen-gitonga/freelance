@@ -48,7 +48,7 @@
           Page {{ available_jobs.number }} of {{ available_jobs.paginator.num_pages }}.
       </span>
 
-      {% if contacts.has_next %}
+      {% if available_jobs.has_next %}
           <a href="?page={{ available_jobs.next_page_number }}">next</a>
           <a href="?page={{ available_jobs.paginator.num_pages }}">last &raquo;</a>
       {% endif %}
