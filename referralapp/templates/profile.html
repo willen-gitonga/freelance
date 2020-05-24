@@ -1,0 +1,77 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+<head>
+    <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<div class="container">
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>Tip!</strong> Complete your profile to get the most out of EclidWorkers.
+  </div>
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+<div class="card1">
+    <img src="../../static/img/profile_no_image.gif" alt="Avatar" style="width:100%" class="img-fluid">
+    <div class="container">
+      <h4><b>{{request.user.username}}</b></h4>
+      <h6 class="text-secondary">Data Entry Worker</h6>
+      <div class="row">
+        <div class="col-6 col-sm-6 col-md-6 col-lg-12 col-xl-6">
+      <h6 class="text-secondary">{{profile.first_name}}</h6>
+    </div>
+    <div class="col-6 col-sm-6 col-md-6 col-lg-12 col-xl-6">
+      <h6 class="text-secondary">{{profile.last_name}}</h6>
+    </div>
+      </div>
+      <h6 class="text-secondary">{{request.user.email}}</h6>
+      <h6 class="text-secondary">Joined: {{profile.date_joined}}</h6>
+      <h6 class="text-secondary">Activity: <i class="fa fa-circle" style="color:lawngreen;font-size: small;"></i>online now.</h6>
+     
+
+
+    </div>
+    <br>
+  </div>
+  <br>
+        </div>
+       
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+            <div class="card">
+                <div class="card-header">User Dashboard</div>
+                <div class="card-body">
+                    {% if remaining_token.bid_token == 0 or remaining_token is None%}
+                    <p><b>You have 0 Eclid tokens. </b><a href="{% url 'token-purchase' %}">Buy Eclid tokens</a></p>
+                    {%else%}
+                    <p><b>Eclid tokens:{{remaining_token.bid_token}}</b></p>
+                    {%endif%}
+                    <p><b>Jobs Completed: 0</b></p>
+                    <p><b>Jobs Assigned: 0</b></p>
+                    <h6 class="text-secondary">{{profile.bio}}</h6>
+                    {% if profile is None%}
+                    <button type="button" class="btn btn-light btn-block" id="formButton" style="border-color:grey ;">Create Profile</button>
+                    {%else%}
+                    <button type="button" class="btn btn-light btn-block" id="formButton" style="border-color:grey ;">Edit Profile</button>
+                    {%endif%}
+                    <form  method="POST" enctype="multipart/form-data" id="form1" style="display: none;">
+                        {% csrf_token %}
+                        {% bootstrap_form form%}
+                        <button class="btndis2 btn btn-sm" type="submit"> Save</button>
+                </form>
+                </div>
+              </div>
+              <br>
+        </div>
+
+
+</div>
+</div>
+<script>
+ 
+    $("#formButton").click(function(){
+           $("#form1").toggle();
+       });
+    </script>
+{% endblock %}

@@ -1,0 +1,50 @@
+
+{%extends "registration/base.html"%}
+{% load bootstrap4 %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="../../static/css/custom.css">
+    <link rel="stylesheet" href="../../static/css/reg.css">
+</head>
+
+    <br><br>
+
+<div class="container">
+  <div class="row no-gutters">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+    <div class="card mb-3" style="max-width: 100%;border-radius: 20px;">
+       
+      <div class="row">
+        <div class="col text-center">
+            <div class="card-body">
+                
+                <p style="color: red;">Enter a valid username and password</p>
+                <br><br>
+                <form method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form%}
+                <br>
+                   <button type="submit" class="loginbtn2"> Login</button>
+                  
+                   <p>New to Eclidworkers? <a href="{% url 'signup' %}">Sign up</a></p>
+                </form>
+            </div>
+         
+      </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- Empty Div -->
+    <div class="col-md-4"></div>
+  
+</div>
+  </div>
+  {%include "footer.html"%}
+
+
+
+{% endblock %}
+
+
