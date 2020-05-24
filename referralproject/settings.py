@@ -77,12 +77,23 @@ WSGI_APPLICATION = 'referralproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME':'referralapp',
+#         'USER':'willen',
+#         'PASSWORD':'phyc@#c4d',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':'referralapp',
-        'USER':'willen',
-        'PASSWORD':'phyc@#c4d',
+        'NAME':'digitalnomad',
+        'USER':'kratos',
+        'PASSWORD':'kratostitan',
+        'HOST':'localhost',
+        'PORT':''
     }
 }
 
