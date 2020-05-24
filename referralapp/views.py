@@ -21,6 +21,7 @@ from requests.auth import HTTPBasicAuth
 import json
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout,get_user_model
+from django.core.paginator import Paginator
 # from account.views import SignupView as BaseSignupView
 # from .mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
 User = get_user_model()
@@ -71,13 +72,21 @@ def signout(request):
 
 @login_required
 def jobs(request):
-    available_jobs = Job.objects.order_by('-creation_date')
-    current_user = request.user 
+    jobs = Job.objects.order_by('-creation_date')
+    current_user = request.user
+    paginator = Paginator(jobs,8) #Show 8 jobs per page
+    page = request.GET.get('page')
+    available_jobs = paginator.get_page(page)
+
     return render(request, 'jobs.html',{'available_jobs':available_jobs})
 
 @login_required
 def sort_price_highest(request):
-    sorted_jobs = Job.objects.order_by('-upper_limit')
+    jobs = Job.objects.order_by('-upper_limit')
+    paginator = Paginator(jobs,8) # Show 8 jobs per page 
+    page = request.GET.get('page')
+    sorted_jobs = paginator.get_page(page)
+
 
     return render(request, 'jobs-sorted.html',{'sorted_jobs':sorted_jobs})
 
