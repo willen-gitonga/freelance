@@ -39,10 +39,10 @@
                 </li>
                 {%if user.is_authenticated%}
                 <li class="nav-item"><a class="nav-link" href="{% url 'profile-dashboard' request.user.username %}" style="color: white;">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'work-place' %}" style="color: white;">Post Job</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'signout' %}" style="color: white;">Log out</a></li>
                 {%else%}
-
-                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in" style="color: white;"></span> Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}"><span class="glyphicon glyphicon-log-in" style="color: white;"></span> Login</a></li>
                 {%endif%}
           
             </ul>

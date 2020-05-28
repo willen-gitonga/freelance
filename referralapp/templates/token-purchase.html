@@ -1,0 +1,62 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+<head>
+    <link rel="stylesheet" href="../../static/css/custom.css">
+    </head>
+<div class="container">
+  
+ <b><u>   <h5>Choose a Pricing:</h5></u></b>
+ {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+ <br>
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+        <div class="card mb-3">
+   <b> <div class="card-header">KES {{low_amount}}0 - 3 Eclid tokens</div></b>
+    <div class="card-body text-secondary">Quote on 3 jobs.<br>
+        You get access to jobs posted. <br>
+        You can submit quotes on recent jobs.
+    </div>
+    <div class="card-footer">
+        <a href="{% url 'token-low'  %}" class="btn btn-info btn-sm float-right" style="background-color: #2BC6FA;">Buy 3 Eclid tokens</a>
+    </div>
+  </div>
+  <div class="card mb-3">
+    <b> <div class="card-header">KES {{medium_amount}}0 - 12 Eclid tokens</div></b>
+     <div class="card-body text-secondary"><strong style="color: black;">Quote on 12 jobs.</strong><br>
+         You get access to jobs posted. <br>
+         You can submit quotes on recent jobs. <br>
+         You can submit quotes on high paying jobs.
+     </div>
+     <div class="card-footer">
+         <a href="{% url 'token-medium'  %}" class="btn btn-info btn-sm float-right" style="background-color: #2BC6FA;">Buy 12 Eclid tokens</a>
+     </div>
+   </div>
+   <div class="card mb-3">
+    <b> <div class="card-header">KES {{high_amount}}0 - 25 Eclid tokens</div></b>
+     <div class="card-body text-secondary"><strong style="color: black;">Quote on 25 jobs.</strong><br>
+        You get access to jobs posted. <br>
+        You can submit quotes on high paying jobs.<br>
+        You can submit quotes on the top featured jobs.
+     </div>
+     <div class="card-footer">
+         <a href="{% url 'token-high'  %}" class="btn btn-info btn-sm float-right" style="background-color: #2BC6FA;">Buy 25 Eclid tokens</a>
+     </div>
+   </div>
+</div>
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"></div>
+</div>
+</div>
+
+
+
+
+{% endblock %}

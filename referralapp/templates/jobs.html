@@ -1,6 +1,5 @@
 {%extends 'base.html'%}
 {% load bootstrap4 %}
-{% load mathfilters %}
 {% load static %}
 {% block content %}
 {{block.super}}
@@ -21,15 +20,21 @@
 
 <div class="container">
  
-  <div class="card mb-3 align-item-xl-center">
-          <div class="card-body">
+  <div class="card mb-3">
+      <div class="card-body">
            <b> <p class="card-text float-right"><span class="badge badge-info" style="background-color: #2BC6FA;"><i class="fa fa-bell-o" style="color:#ffff"></i>{{job.job_completion}}% complete</span></p></b>
         <b> <p class="card-text">{{job.job_title}}</p> </b>
-         <b>  <p class="card-text float-right text-secondary">{{job.lower_limit|mul:100.0}}-{{job.upper_limit|mul:100.0}} KES/hr</p></b>
-           <b><p class="card-text text-secondary"><i class="fa fa-money"></i> {{job.lower_limit}} - {{job.upper_limit}} <i class="fa fa-dollar"></i>/hr</p></b>
-            <a href="{% url 'bid-job' job.slug %}" class="stretched-link"></a>
-          </div>
        
+         <b>  <p class="card-text float-right text-secondary">{{job.lower_limit}}-{{job.upper_limit}} KES</p></b>
+         <a href="{{job.job_link}}" target="_blank" class="card-text">{{job.job_link}}</a>
+        
+           <b><p class="card-text text-secondary">  {{job.job_category}} </p></b>
+           <hr>
+      <a href="{% url 'bid-job' job.slug %}"  class="btndis btn-xs btn-info float-right stretched-link">View Job</a>
+           
+          </div>
+         
+         
       </div>
    
    

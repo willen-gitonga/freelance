@@ -10,21 +10,22 @@
     <br>
     <div class="row">
       
-        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-15">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
     <div class="card">
        
        <div class="card-body" style="color: black;">
         <p style="color: red;">Kindly use the phone number filled out during registration to make this payment.</p>
+       
             <ol>
        <li> Go to M-PESA on your phone</li>
        <li> Select Buy Goods option</li>
         <li>Enter Buy Goods till no xxxx </li>
-        <li>Enter the Amount <strong> {{medium_amount}} </strong></li>
+        <li>Enter the Amount <strong> {{post_job_amount}} </strong></li>
         <li>Enter your M-PESA PIN and Send</li>
         <li>You will receive your confirmation SMS from M-PESA</li>
         <li>Click to confirm the payment.</li>
             </ol> 
-     
+        
         <p> Using a different phone number to make this payment?
             <a href="#"  id="formButton">Change phone number</a>
           </p>
@@ -33,16 +34,24 @@
             {% csrf_token %}
             {% bootstrap_form form%}
             <button class="btndis2 btn btn-sm" type="submit"> Change</button>
+
     </form>
     </div>
 </div>
         
     <br>
-    <a href="{% url 'validate-transaction'  %}" class="btn btn-info" style="background-color: #2BC6FA;">Confirm Payment</a>
+    <a href="{% url 'post-job-transaction'  %}" class="btn btn-info" style="background-color: #2BC6FA;">Confirm Payment</a>
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
     </div>
+  
 </div>
 </div>
-
 
 <script>
  

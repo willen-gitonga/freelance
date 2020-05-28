@@ -1,0 +1,76 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load mathfilters %}
+{% load static %}
+{% block content %}
+{{block.super}}
+<head>
+    <link rel="stylesheet" href="../../static/css/custom.css">
+    </head>
+<div class="container">
+    <div class="card" type='button'>
+        <div class="card-header" id='formButton'>
+        <i class="fa fa-plus-circle"  style="font-size:19px"></i> <strong> What type of jobs can I post? </strong>
+        </div>
+        <div class="card-body" id='form1' style="display: none;">
+            <li>Need more customer traffic on products & services you provide?</li>
+            <li>Need IT & Software specialists?</i></li>
+            <li>Need marketing referral agents & services?</li>
+            <li>Need customer service associates?</li>
+            <li>Need Academic writers?</li>
+            <li>Need specialists in any field of work?</li> <br>
+           <b><h5 style="text-align: center;">Anything You Need We Got You <i class="fa fa-check-circle-o" style="font-size:36px;color:lawngreen"></i></h5></b>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+     
+<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+  
+    <div class="card">
+       
+        <div class="card-body">
+            You can post a <strong> top featured </strong> job on Eclid workers,with these features: <br> <br>
+               1. The job appears on <strong> top pages </strong> in the freelancers job dashboard.<br>
+               2. Receive quotes from <strong> top candidates </strong> with good job completion rates.<br>
+               3. <strong>No limit</strong> to the number of quotes you can receive <br>
+               4. You can reach out to candidates with the <strong>best quotes </strong> to do your job. <br> 
+               5. <strong>No transaction fee.</strong>
+               <div class="row">
+                <div class="col text-center">
+              <a href="{% url 'post-job-purchase'  %}"> I want to post a top featured job for {{post_job_amount}} KES.</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br>
+</div>
+
+<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+    <h4>Tell us about your job:</h4>
+<form  method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{% bootstrap_form form%}
+
+{%if post_job is None or post_job.job_post_paid == False%}
+<a href="#" class="btndis btn btn-sm disabled" id="disbutton"> Post Your job <i class="fa fa-ban"></i></a>
+{%endif%}
+{%if post_job.job_post_paid == True%}
+<button class="btndis2 btn btn-sm" type="submit"> Post Your job</button>
+{%endif%}
+
+</form>
+<br>
+</div>
+    </div>
+</div>
+
+
+<script>
+    $("#formButton").click(function(){
+           $("#form1").toggle();
+       });
+</script>
+
+{% endblock %}

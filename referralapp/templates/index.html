@@ -52,12 +52,12 @@
                                     <a class="nav-link" href="{%url 'job-page' %}">Freelance Jobs</a>
                                 </li>
                                  {%if user.is_authenticated%}
-                <li class="nav-item"><a class="nav-link" href="{% url 'profile-dashboard' request.user.username %}" style="color: white;">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'signout' %}" style="color: white;">Log out</a></li>
-                {%else%}
-
-                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in" style="color: white;"></span> Login</a></li>
-                {%endif%}
+                                <li class="nav-item"><a class="nav-link" href="{% url 'profile-dashboard' request.user.username %}">Profile</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'signout' %}">Log out</a></li>
+                                {%else%}
+                                <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}"><span class="glyphicon glyphicon-log-in"></span> LOGIN</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}"><span class="glyphicon glyphicon-log-in"></span> START WORKING</a></li>
+                                {%endif%}
                                 
                                 
                             </ul>
@@ -96,7 +96,7 @@
                                 
                             </p>
                           
-                            <a href="{%url 'login' %}" class="btn_2 banner_btn_1">LOGIN</a>
+                            <a href="{%url 'signin' %}" class="btn_2 banner_btn_1">LOGIN</a>
                             <a href="{%url 'signup' %}" class="btn_2 banner_btn_2">START WORKING </a>
                         </div>
                     </div>
@@ -182,7 +182,7 @@
                         <h2>Right people at the
                             Right time.</h2>
                         <a href="{%url 'signup' %}" class="btn_1">START WORKING</a>
-                        <a href="{%url 'login' %}" class="btn_2">LOGIN</a>
+                        <a href="{%url 'signin' %}" class="btn_2">LOGIN</a>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6">
@@ -246,7 +246,7 @@
                 <div class="col-md-6 col-lg-5">
                     <div class="about_us_text">
                        
-                        <a href="{%url 'login' %}" class="btn_1">LOGIN</a>
+                        <a href="{%url 'signin' %}" class="btn_1">LOGIN</a>
                         <a href="{%url 'signup' %}" class="btn_2">START WORKING</a>
                     </div>
                 </div>
@@ -321,7 +321,7 @@
                     <div class="cta_text text-center">
                         <h2>Very user Friendly</h2>
                         <p>Work with us on an hourly rate.</p>
-                        <a href="{%url 'login' %}" class="btn_2 banner_btn_1">LOGIN</a>
+                        <a href="{%url 'signin' %}" class="btn_2 banner_btn_1">LOGIN</a>
                         <a href="{%url 'signup' %}" class="btn_2 banner_btn_2">START WORKING</a>
                     </div>
                 </div>

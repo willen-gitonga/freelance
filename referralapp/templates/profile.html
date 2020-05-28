@@ -20,15 +20,17 @@
       <h6 class="text-secondary">Data Entry Worker</h6>
       <div class="row">
         <div class="col-6 col-sm-6 col-md-6 col-lg-12 col-xl-6">
-      <h6 class="text-secondary">{{profile.first_name}}</h6>
+      <h6 class="text-secondary">{{request.user.first_name}}</h6>
     </div>
     <div class="col-6 col-sm-6 col-md-6 col-lg-12 col-xl-6">
-      <h6 class="text-secondary">{{profile.last_name}}</h6>
+      <h6 class="text-secondary">{{request.user.last_name}}</h6>
     </div>
       </div>
       <h6 class="text-secondary">{{request.user.email}}</h6>
-      <h6 class="text-secondary">Joined: {{profile.date_joined}}</h6>
-      <h6 class="text-secondary">Activity: <i class="fa fa-circle" style="color:lawngreen;font-size: small;"></i>online now.</h6>
+      <h6 class="text-secondary">{{profile.phonenumber}}</h6>
+
+      <h6 class="text-secondary">Joined: {{request.user.date_joined}}</h6>
+      <h6 class="text-secondary">Activity: <i class="fa fa-circle" style="color:lawngreen;font-size: small;"></i>online.</h6>
      
 
 
@@ -55,6 +57,7 @@
                     {%else%}
                     <button type="button" class="btn btn-light btn-block" id="formButton" style="border-color:grey ;">Edit Profile</button>
                     {%endif%}
+                    <br>
                     <form  method="POST" enctype="multipart/form-data" id="form1" style="display: none;">
                         {% csrf_token %}
                         {% bootstrap_form form%}

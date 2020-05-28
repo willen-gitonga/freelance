@@ -8,30 +8,29 @@
   <link rel="stylesheet" href="../../static/css/reg.css">
   </head>
   
-<section>
-  
-</section>
-    <br><br><br>
 
 <div class="container">
   <div class="row no-gutters">
     <div class="col-md-4"></div>
     <div class="col-md-4">
+      <br>
     <div class="card mb-3" style="max-width: 100%;border-radius: 20px;">
        
       <div class="row">
         <div class="col text-center">
        <p>Register a new account</p>
-        <p>Sign up for a user account to start</p>
+        <p>Sign up for a user account to get started</p>
             <div class="card-body">
                 
                 <form method="post">
                     {% csrf_token %}
                     {% bootstrap_form form%}
+                    {% bootstrap_form p_form%}
+
                 <br>
                    <button type="submit" class="loginbtn2"> Sign up</button>
                   
-                   <p>Already have an account?<a href="{% url 'login' %}">Login</a></p>
+                   <p>Already have an account?<a href="{% url 'signin' %}">Login</a></p>
                 </form>
             </div>
          
@@ -47,8 +46,7 @@
   </div>
 
 
-
-  {%include "footer.html"%}
+{%include "footer.html"%}
 {% endblock %}
 
 

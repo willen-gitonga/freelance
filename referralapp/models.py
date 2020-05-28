@@ -9,31 +9,31 @@ from autoslug import AutoSlugField
 
 
 class Job(models.Model):
-	LOWER_LIMIT =[
-		(0.5,'0.5$-1.0$'),
-		(1,'1.0$-1.5$'),
-		(1.5,'1.5$-2.0$'),
-		(2,'2.0$-2.5$'),
-		(3,'3.0$-3.5$')
-
+	JOB_CATEGORIES = [
+		('Products & Services','Products & Services'),
+		('IT & Software Development','IT & Software Development'),
+		('Marketing Strategy & Research','Marketing Strategy & Research'),
+		('Writing & Transcription','Writing & Transcription'),
+		('Business & Customer Service','Business & Customer Service'),
+		('Agents & Referral Services','Agents & Referral Services'),
+		('Other','Other')
 	]
-	UPPER_LIMIT =[
-		(1.0,'0.5$-1.0$'),
-		(1.5,'1.0$-1.5$'),
-		(2.0,'1.5$-2.0$'),
-		(2.5,'2.0$-2.5$'),
-		(3.5,'3.0$-3.5$')
-
+	SOCIAL_CATEGORIES = [
+		('Digital Media Marketing','I need more traffic to my online business'),
+		('E-commerce Specialist Required','I need an E-commerce Specialist')
 	]
-
 	user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-	job_title = models.CharField(max_length=250,blank=True)
+	job_title = models.CharField(max_length=60,blank=True)
 	slug = AutoSlugField(populate_from='job_title',null=True)
-	lower_limit = models.FloatField(choices=LOWER_LIMIT,default=0.0)
-	upper_limit = models.FloatField(choices=UPPER_LIMIT,default=0.0)
+	lower_limit = models.FloatField(null=True,default=0.0)
+	upper_limit = models.FloatField(null=True,default=0.0)
 	job_completion = models.PositiveIntegerField(default=0,null=True)
 	job_requirements = models.TextField(blank=True)
+	job_category = models.CharField(max_length=60,choices=JOB_CATEGORIES,blank=True)
+	digital_category = models.CharField(max_length=60,choices=SOCIAL_CATEGORIES,blank=True)
+	job_link = models.CharField(max_length=100,blank=True)
 	creation_date = models.DateTimeField(auto_now_add=True,null=True)
+
 	def __str__(self):
 		return self.job_title
 	
@@ -42,7 +42,15 @@ class Job(models.Model):
 	class Meta:
 		verbose_name_plural = "Jobs"
 
+class JobPayment(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+	job_post_paid = models.BooleanField(null=True,default=False)
 
+	def __str__(self):
+		return self.user.username
+	
+	class Meta:
+		verbose_name_plural = 'Job Payments'
 
 class Quote(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
@@ -64,15 +72,8 @@ class Quote(models.Model):
 
 
 class Token(models.Model):
-	TOKEN_PRICES =[
-		(3,'3 credits - KES 300'),
-		(5,'5 credits - KES 500'),
-		(7,'7 credits - KES 700')
-	]
 	user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
-	token_price = models.IntegerField(choices=TOKEN_PRICES,default=0)
 	bid_token = models.PositiveIntegerField(default=0,null=True)
-
 
 	def __str__(self):
 		return self.user.username
@@ -82,28 +83,63 @@ class Token(models.Model):
 	class Meta:
 		verbose_name_plural = "Eclid tokens"
 
-
-class ConfirmPayment(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-	payment_number = models.CharField(max_length=10,null=True)
-	mpesa_code = models.CharField(max_length=12,null=True)
-
-
-	def __str__(self):
-		return self.payment_number
-	
-	class Meta:
-		verbose_name_plural = "Payment Confirmed"
-
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
-	date_joined = models.DateTimeField(auto_now_add=True,null=True)
-	first_name = models.CharField(max_length=15,blank=True)
-	last_name = models.CharField(max_length=15,blank=True)
+	phonenumber = models.CharField(verbose_name="phone_number", max_length=12,null=True)
 	bio = models.TextField(blank=True)
 
-	
 
 	def __str__(self):
 		return self.user.username
 
+
+
+class BaseModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+# M-pesa Payment models
+
+class MpesaCalls(BaseModel):
+    ip_address = models.TextField()
+    caller = models.TextField()
+    conversation_id = models.TextField()
+    content = models.TextField()
+
+    class Meta:
+        verbose_name = 'Mpesa Call'
+        verbose_name_plural = 'Mpesa Calls'
+
+
+class MpesaCallBacks(BaseModel):
+    ip_address = models.TextField()
+    caller = models.TextField()
+    conversation_id = models.TextField()
+    content = models.TextField()
+
+    class Meta:
+        verbose_name = 'Mpesa Call Back'
+        verbose_name_plural = 'Mpesa Call Backs'
+
+
+class MpesaPayment(BaseModel):
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField()
+    type = models.TextField()
+    reference = models.TextField()
+    first_name = models.CharField(max_length=100)
+    middle_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone_number = models.TextField()
+    organization_balance = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        verbose_name = 'Mpesa Payment'
+        verbose_name_plural = 'Mpesa Payments'
+
+    def __str__(self):
+        return self.first_name
