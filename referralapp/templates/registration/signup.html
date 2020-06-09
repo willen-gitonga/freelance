@@ -18,8 +18,8 @@
        
       <div class="row">
         <div class="col text-center">
-       <p>Register a new account</p>
-        <p>Sign up for a user account to get started</p>
+       <p class="text-secondary">Register a new account</p>
+        <p class="text-secondary">Sign up for a user account to get started</p>
             <div class="card-body">
                 
                 <form method="post">
@@ -28,9 +28,10 @@
                     {% bootstrap_form p_form%}
 
                 <br>
+                <p>By signing up you agree to our <a href="{% url 'terms-conditions' %}">Terms & Conditions</a></p>
                    <button type="submit" class="loginbtn2"> Sign up</button>
                   
-                   <p>Already have an account?<a href="{% url 'signin' %}">Login</a></p>
+                   <p>Already have an account?<a href="{% url 'login' %}">Login</a></p>
                 </form>
             </div>
          

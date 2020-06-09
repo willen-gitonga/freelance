@@ -1,0 +1,70 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+
+{% for skill in all_skills %}
+
+<div class="container">
+ 
+  <div class="card mb-3">
+      <div class="card-body">
+        {% if skill.freelance_skill == 1 %}
+        <b> <p class="card-text">Design & Creatives</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 2 %}
+        <b> <p class="card-text">Marketing</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 3 %}
+        <b> <p class="card-text">Websites & IT</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 4 %}
+        <b> <p class="card-text">Accounting</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 5 %}
+        <b> <p class="card-text">Legal</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 6 %}
+        <b> <p class="card-text">Business Consulting</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 7 %}
+        <b> <p class="card-text">Tutoring & Courses</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 8 %}
+        <b> <p class="card-text">Trading & Analysis</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 9 %}
+        <b> <p class="card-text">Event & Decoration</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 10 %}
+        <b> <p class="card-text">Personal Training</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 11 %}
+        <b> <p class="card-text">Writing & Transcription</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 12 %}
+        <b> <p class="card-text">Photography</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 13 %}
+        <b> <p class="card-text">Data Entry Expert</p> </b>
+        {%endif%}
+        <p>{{skill.freelance_description}}</p><br>
+        {{skill.freelance_charge}} <br>
+        {{skill.freelance_link}} <br>
+
+    
+      <a href=""  class="btndis btn-xs btn-info float-right loginbtn3">View Details</a>
+           
+          </div>
+         
+         
+      </div>
+   
+   
+  </div>
+  
+{% endfor %}
+
+
+{% endblock %}

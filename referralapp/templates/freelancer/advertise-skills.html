@@ -1,0 +1,78 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+
+<head>
+    <link rel="stylesheet" href="../../static/css/custom.css">
+    </head>
+<br>
+<div class="container">
+    <div class="card" type='button'>
+        <div class="card-header" id='formButton'>
+        <i class="fa fa-plus-circle"  style="font-size:19px"></i> <strong>What type of skills can i promote?</strong>
+        </div>
+        <div class="card-body" id='form1' style="display: none;">
+            
+            <div class="card-text">
+               <strong> Any skill can be promoted. </strong>You can promote any skill that you are proficient in and <strong>get connected to potential clients</strong>.
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+            <div class="card">
+                <div class="card-body">
+                    You can promote your <strong>awesome skill</strong> and get access to these features: <br>
+                    1. <strong>Your promoted skill features on Eclid workers Client page.</strong> <br>
+                    2. <strong>Get connected with potential clients</strong> <br>
+                    3. Your post can run within our site for a month.<br>
+                    4. Renewal is only  <strong>500 KES</strong> after the first month.<br>
+                    5. <strong>Tools you need to start your career in freelance remote work.</strong> <br>
+                    6. <strong>No transaction fee.</strong> <br>
+                    
+                    <div class="row">
+                        <div class="col text-center">
+                      <a href="{% url 'freelance-skill-purchase' %}">Promote my skill for {{freelance_skills_amount}} KES.</a>
+                     
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+            {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+                <p class="{{ message.tags }} text-success">{{ message }}</p>
+              {% endfor %}
+            </ul>
+            {%endif%}
+            <h4>Tell us about your skill:</h4>
+<form  method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form%}
+    {%if post_skill is None or post_skill.skill_post_paid == False%}
+    <a href="#" class="btndis btn btn-sm disabled" id="disbutton"> Promote skill <i class="fa fa-ban"></i></a>
+    {%endif%}
+    {%if post_skill.skill_post_paid == True%}
+    <button class="btndis2 btn btn-sm" type="submit">Promote skill</button>
+    {%endif%}
+    
+    </form>
+</div>
+</div>
+</div>
+    
+<script>
+    $("#formButton").click(function(){
+           $("#form1").toggle();
+       });
+</script>
+
+{% endblock %}

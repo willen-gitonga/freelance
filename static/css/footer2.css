@@ -1,0 +1,7 @@
+.footer_part {
+    background-image: url("../img/footer_bg.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 130px 0px 25px;
+  }

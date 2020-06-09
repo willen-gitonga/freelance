@@ -1,0 +1,60 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load mathfilters %}
+{% load static %}
+{% block content %}
+{{block.super}}
+
+<head>
+<link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<br>
+<div class="container">
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Tip!</strong> With a higher number of Eclid tokens your submitted offers have a higher chance to be among the top.
+      </div>
+<div class="card align-item-xl-center">
+    <div class="card-body">
+    {% if remaining_token.bid_token == 0 or remaining_token is None%}
+   
+   <b> <p>To submit an offer you will need to have existing Eclid tokens.You currently have 0 Eclid tokens.<br>
+       <a href="{% url 'token-purchase' %}">Buy Eclid tokens</a>
+    </p>
+</b>
+    {%else%}
+    <b> <p>You currently have {{remaining_token.bid_token}} Eclid tokens.<br>
+        <a href="{% url 'token-purchase' %}">Buy Eclid tokens</a>
+     </p>
+ </b>
+    
+    {%endif%}
+
+</div>
+</div>
+<br>
+{% if offers_count > 0 %}
+  <b><p class="text-secondary"><i class="fa fa-cog fa-spin" style="font-size:18px"></i> {{offers_count}} offers</p></b>
+  {%endif%}
+  <b> <p style="margin-top: 18px;"> <i class="fa fa-chain"></i> What is required? <br>
+   
+    <a  style="text-align: center;" href="{{job.job_link}}" target="_blank">{{job.job_link}}</a> </p></b>
+  
+  <p>{{job.job_requirements|linebreaks}}</p>
+<form  method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form%}
+    {% if remaining_token.bid_token == 0 or remaining_token is None or offers_count == 15%}
+   <b> <a href="#" class="btndis disabled btn btn-sm"> Submit Offer <i class="fa fa-ban"></i></a></b>
+    {%else%}
+    <button class="btndis2 btn btn-sm" type="submit"> Submit Offer</button>
+    {%endif%}
+
+    {% if offers_count == 15%}
+   <b> <p>Maximum offers received.</p></b>
+    {%endif%}
+    
+</form>
+</div>
+
+{% endblock %}

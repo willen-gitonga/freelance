@@ -1,0 +1,10 @@
+  
+  .megamenu .dropdown-menu {
+    background: none;
+    border: none;
+    width: 100%;
+   
+  }
+  .nav-item a:hover {
+    cursor: pointer;
+}

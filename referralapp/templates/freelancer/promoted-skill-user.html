@@ -1,0 +1,129 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+<head>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+  <link rel="stylesheet" href="../../static/css/reg.css">
+  </head>
+<br><br>
+{% if freelance_skill_count == 0 %}
+<div class="container">
+  <br><br>
+<h4 style="text-align: center;">You have not promoted any skills yet.</h4>
+<h5 style="text-align: center;">Promoted skills that are valid will appear here. <br> <br>
+
+  <a href="{% url 'freelance-skill-post'  %}" style="text-align: center;">Promote your skill and get connected with potential clients.</a>
+</h5>
+
+</div>
+{%else%}
+<div class="container">
+<a href="{% url 'freelance-skill-post'  %}" class="btndis btn-xs btn-info float-right loginbtn3">Promote a new skill</a><br><br>
+{% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+                <p class="{{ message.tags }} text-danger">{{ message }}</p>
+              {% endfor %}
+            </ul>
+          {% endif %}
+</div>
+
+{% for skill in freelance_skill %}
+
+<div class="container">
+ 
+  <div class="card mb-3">
+      <div class="card-body">
+        {% if skill.freelance_skill == 1 %}
+        <b> <p class="card-text text-secondary">Design & Creatives</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 2 %}
+        <b> <p class="card-text text-secondary">Marketing</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 3 %}
+        <b> <p class="card-text text-secondary">Websites & IT</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 4 %}
+        <b> <p class="card-text text-secondary">Accounting</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 5 %}
+        <b> <p class="card-text text-secondary">Legal</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 6 %}
+        <b> <p class="card-text text-secondary">Business Consulting</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 7 %}
+        <b> <p class="card-text text-secondary">Tutoring & Courses</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 8 %}
+        <b> <p class="card-text text-secondary">Trading & Analysis</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 9 %}
+        <b> <p class="card-text text-secondary">Event & Decoration</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 10 %}
+        <b> <p class="card-text text-secondary">Personal Training</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 11 %}
+        <b> <p class="card-text text-secondary">Writing & Transcription</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 12 %}
+        <b> <p class="card-text text-secondary">Photography</p> </b>
+        {%endif%}
+        {% if skill.freelance_skill == 13 %}
+        <b> <p class="card-text text-secondary">Data Entry Expert</p> </b>
+        {%endif%}
+
+       <strong>{{skill.freelance_description}}</strong><br><br>
+         <strong class="text-secondary">{{skill.freelance_charge}} KES for my services.</strong>
+         <strong class="float-right text-secondary">Valid till {{skill.expiry_date|date:'Y-m-d'}}</strong><br>
+
+        <a href="{{skill.freelance_link}}" target="_blank">View my portfolio</a>
+
+        
+
+      <a href="#"  data-toggle="collapse" data-target="#demo" class="btndis btn-xs btn-info float-right loginbtn3">Renew Validity</a>
+        <br><br><br><br>
+          <div id="demo" class="collapse">
+        <div class="card">
+           
+           <div class="card-body" style="color: black;">
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <strong>!</strong> Kindly use the phone number filled in your profile to make this payment.
+              </div>
+                <ol>
+           <li> Go to M-PESA on your phone</li>
+           <li> Select Buy Goods option</li>
+            <li>Enter Buy Goods till no xxxx </li>
+            <li>Enter the Amount <strong> {{freelance_skills_renew_amount}} </strong></li>
+            <li>Enter your M-PESA PIN and Send</li>
+            <li>You will receive your confirmation SMS from M-PESA</li>
+            <li>Click to confirm the payment.</li>
+                </ol> 
+                <br>
+                <a href="{% url 'check-skill-renewal-transaction' skill.id %}" class="btn btn-info btn-sm" style="background-color: #13B5FA;">Confirm Payment</a>
+
+      
+    </div>
+    </div>
+  </div>
+
+           
+          </div>
+         
+         
+      </div>
+   
+   
+  </div>
+  
+  
+
+{% endfor %}
+
+{%endif%}
+
+{% endblock %}

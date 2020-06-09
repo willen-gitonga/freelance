@@ -1,5 +1,5 @@
 .loginbtn2{
-    background-color:#2BC6FA;
+    background-color:#13B5FA;
     border: none;
     color: white;
     padding: 4px 43px;
@@ -9,6 +9,18 @@
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 16px;
-    font-family: cursive;
+  }
+  
+.loginbtn3{
+    background-color:#13B5FA;
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 2px 1px;
+    cursor: pointer;
+    border-radius: 16px;
   }
   

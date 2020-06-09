@@ -1,0 +1,127 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+<head>
+    <link rel="stylesheet" href="../../static/css/custom.css">
+    </head>
+    <br>
+<div class="container">
+  <strong><h1 style="text-align: center;" >Find what works best for you</h1></strong>
+
+  <div class="row">
+
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+    
+        <div class="card mb-3">
+             <div class="card-body">
+                <div class="row">
+        
+                    <div class="col text-center">
+              <h2>Project Owner <i class="fa fa-desktop" style="font-size:35px;color:#13B5FA"></i></h2>
+              <hr>
+              Accelerated project development <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+              <hr>
+              Get connected with top freelancers <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+              <hr>
+              Post your project <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+              <hr>
+              Get offers from top freelancers <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+              <hr>
+              Start project development <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+              <hr>
+              Manage the end to end development of your project <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+              <hr>
+              It doesn't get any easier than this for project owners <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+              <hr>
+              <br><br>
+              <a href="{% url 'post-job'  %}" class="btn btn-info  btn-banner2">Post Project</a>
+              
+                    </div>
+                </div>
+                 
+             </div>
+         </div>
+        </div>
+   
+   
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+    
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col text-center">
+                        <h2>Skills Promote <i class="fa fa-edit" style="font-size:35px;color:#13B5FA"></i></h2>
+                        <hr>
+                        Promote your skills to potential clients <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+                        <hr>
+                        Access to top rated clients <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+                        <hr>
+                        Get connected to clients that need top talent <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+                        <hr>
+                        Potential clients can reach you <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+                        <hr>
+                        Display some of your best work <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+                        <hr>
+                        Build up your portfolio <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+                        <hr>
+                        Start your career as a digital remote worker <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+                        <hr>
+                        It doesn't get any easier than this to promote your skill <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+                        <hr>
+                    
+                        <a href="{% url 'freelance-skill-post' %}" class="btn btn-info  btn-banner2">Promote Skill</a>
+                    </div>
+                </div>
+    
+                
+            </div>
+        </div>
+    </div>
+
+         
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+        <div class="card mb-3">
+            <div class="card-body">
+               <div class="row">
+       
+                   <div class="col text-center">
+             <h2>Merchant Promote <i class="fa fa-cart-plus" style="font-size:35px;color:#13B5FA"></i></h2>
+             <hr>
+                  
+               Take your business to the next level <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+               <hr>
+               Best tool you need to sell online <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+               <hr>
+               Marketing your business has never been this easy <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+               <hr>
+               No need to create a new online store <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+               <hr>
+               Add my existing website <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+               <hr>
+               Add my existing online store <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+               <hr>
+               Add my social media page <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+               <hr>
+               Let us do the heavy lifting for you <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+               <hr>
+               It doesn't get any easier than this for merchants <i class="fa fa-check" style="color: #13B5FA;font-size: 19px;"></i>
+               <hr>
+              
+               <a href="{% url 'digital-media'  %}" class="btn btn-info  btn-banner2">Promote Business</a>
+                   
+       
+           </div>
+       </div>
+       
+            </div>
+        </div>
+       
+       </div>
+    
+    </div>
+</div>
+
+{% endblock %}

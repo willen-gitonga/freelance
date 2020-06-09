@@ -1,0 +1,62 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+
+<head>
+    <link rel="stylesheet" href="../../static/css/custom.css">
+    </head>
+    <br><br>
+    <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <div class="card">
+                        <div class="card-body">                    <a href="{% url 'posted-jobs-user'  %}">
+                    <i class="fa fa-bookmark-o" style="font-size:36px;color: #13B5FA;"></i>
+                    <strong><p style="color: black;">Posted projects.</p></strong>
+                </a>
+                  
+                </div>
+            </div>
+            <br>
+                </div>
+            </div>
+    
+        
+    </div>
+{% if job_quotes_count == 0%}
+<div class="container">
+    <h5 style="text-align: center;">You have not received any offers on any projects posted.</h5>
+<h5 style="text-align: center;">Offers on projects you have posted will appear here. <br> <br>
+
+    <a href="{% url 'post-job'  %}" style="text-align: center;">Post a project and work with top freelancers.</a>
+</h5>
+
+</div>
+{%else%}
+
+
+
+{% for job_quote in job_quotes %}
+
+
+<div class="container">
+    <div class="card mb-3">
+        <div class="card-body">
+            <strong class="float-right text-secondary">Received from: {{job_quote.user.username}} <br>
+                +{{job_quote.profile.phonenumber}} 
+            </strong> <br>
+            <b>{{job_quote.job.job_title}}</b> <br>
+           <strong class="text-secondary">{{job_quote.quote}}</strong> <br> <br>
+            <strong class="text-secondary"><i class="fa fa-money" style="font-size:18px"></i> {{job_quote.quote_amount}} {{job_quote.currency}}</strong> <br>
+        </div>
+    </div>
+  
+</div>
+
+{% endfor %}
+
+{%endif%}
+
+{% endblock %}

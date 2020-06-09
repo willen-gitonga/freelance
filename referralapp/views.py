@@ -4,14 +4,12 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
 from django.views.generic import UpdateView,TemplateView,CreateView,ListView
-from .forms import SignupForm,JobQuoteForm,SigninForm,ProfileCreationForm,RegisterProfileForm,PostJobForm,DigitalMediaForm
+from .forms import SignupForm,JobQuoteForm,ProfileCreationForm,RegisterProfileForm,PostJobForm,DigitalMediaForm,FreelanceSkillAdvertiseForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from .tokens import account_activation_token
-from django.urls import reverse
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
@@ -21,6 +19,11 @@ from requests.auth import HTTPBasicAuth
 import json
 from django.contrib.auth import authenticate, login, logout,get_user_model
 from django.core.paginator import Paginator
+from django.utils import timezone
+from datetime import timedelta
+from celery.schedules import crontab
+from celery.task import periodic_task
+from django.contrib import messages
 from .mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
 from django.views.decorators.csrf import csrf_exempt
 User = get_user_model()
@@ -30,6 +33,31 @@ User = get_user_model()
 class HomePageView(TemplateView):
     template_name = 'index.html'
 
+
+
+@periodic_task(run_every=crontab(minute='*/5'))
+def delete_old_skill():
+    # Query all the foos in our database
+    foos = FreelanceSkills.objects.all()
+
+    # Iterate through them
+    for foo in foos:
+
+        # If the expiration date is bigger than now delete it
+        if foo.expiry_date < timezone.now():
+            foo.delete()
+
+@periodic_task(run_every=crontab(minute='*/5'))
+def delete_old_business():
+    # Query all the foos in our database
+    foos = MerchantPromote.objects.all()
+
+    # Iterate through them
+    for foo in foos:
+
+        # If the expiration date is bigger than now delete it
+        if foo.expiry_date < timezone.now():
+            foo.delete()
 
 def signup(request):
     if request.method == "POST":
@@ -48,28 +76,9 @@ def signup(request):
     context = {"form": form,'p_form':p_form}
     return render(request, "registration/signup.html", context)
 
+def terms_conditions(request):
 
-def signin(request):
-    if request.method=="POST":
-        form = SigninForm(request.POST)
-        # username = req.POST["username"]
-        # password = req.POST["password"]
-        username = form["username"].value()
-        password = form["password"].value()
-        user = authenticate(request, username=username,  password=password)
-        if user is not None:
-            login(request, user)
-            return redirect("job-page")
-    else:
-        form = SigninForm()
-    context = {"form": form}
-    return render(request, "registration/login.html", context)
-
-@login_required
-def signout(request):
-    logout(request)
-    return redirect('signin')
-
+    return render(request,'terms-conditions.html')
 
 @login_required
 def jobs(request):
@@ -79,7 +88,7 @@ def jobs(request):
     page = request.GET.get('page')
     available_jobs = paginator.get_page(page)
 
-    return render(request, 'jobs.html',{'available_jobs':available_jobs})
+    return render(request, 'freelancer/jobs.html',{'available_jobs':available_jobs})
 
 @login_required
 def sort_price_highest(request):
@@ -89,18 +98,89 @@ def sort_price_highest(request):
     sorted_jobs = paginator.get_page(page)
 
 
-    return render(request, 'jobs-sorted.html',{'sorted_jobs':sorted_jobs})
+    return render(request, 'freelancer/jobs-sorted.html',{'sorted_jobs':sorted_jobs})
+
+#Different categories of the jobs posted
+@login_required
+def sort_software_jobs(request):
+    count_jobs = Job.objects.filter(job_category=1).count()
+    sorted_jobs = Job.objects.filter(job_category=1)
+   
+
+    return render(request, 'freelancer/sort-software-jobs.html',{'sorted_jobs':sorted_jobs,'count_jobs':count_jobs})
+
+@login_required
+def sort_product_jobs(request):
+    count_jobs = Job.objects.filter(job_category=2).count()
+    sorted_jobs = Job.objects.filter(job_category=2)
+   
+
+    return render(request,'freelancer/sort-product-jobs.html',{'sorted_jobs':sorted_jobs,'count_jobs':count_jobs})
 
 
 @login_required
-def bid_job(request,slug):
+def sort_marketing_jobs(request):
+    count_jobs = Job.objects.filter(job_category=3).count()
+    sorted_jobs = Job.objects.filter(job_category=3)
+   
+
+    return render(request,'freelancer/sort-marketing-jobs.html',{'sorted_jobs':sorted_jobs,'count_jobs':count_jobs})
+
+@login_required
+def sort_writing_jobs(request):
+    count_jobs = Job.objects.filter(job_category=4).count()
+    sorted_jobs = Job.objects.filter(job_category=4)
+  
+
+    return render(request,'freelancer/sort-writing-jobs.html',{'sorted_jobs':sorted_jobs,'count_jobs':count_jobs})
+
+@login_required
+def sort_customer_service_jobs(request):
+    count_jobs = Job.objects.filter(job_category=5).count()
+    sorted_jobs = Job.objects.filter(job_category=5)
+
+
+    return render(request,'freelancer/sort-customerservice-jobs.html',{'sorted_jobs':sorted_jobs,'count_jobs':count_jobs})
+
+@login_required
+def sort_referral_jobs(request):
+    count_jobs = Job.objects.filter(job_category=6).count()
+    sorted_jobs = Job.objects.filter(job_category=6)
+  
+
+
+    return render(request,'freelancer/sort-referral-jobs.html',{'sorted_jobs':sorted_jobs,'count_jobs':count_jobs})
+
+@login_required
+def sort_data_entry_jobs(request):
+    count_jobs = Job.objects.filter(job_category=7).count()
+    sorted_jobs = Job.objects.filter(job_category=7)
+   
+
+    return render(request,'freelancer/sort-dataentry-jobs.html',{'sorted_jobs':sorted_jobs,'count_jobs':count_jobs})
+
+@login_required
+def sort_other_unspecified_jobs(request):
+    count_jobs = Job.objects.filter(job_category=8).count()
+    sorted_jobs = Job.objects.filter(job_category=8)
+   
+    return render(request,'freelancer/sort-unspecified-jobs.html',{'sorted_jobs':sorted_jobs,'count_jobs':count_jobs})
+
+#End of job category part
+@login_required
+def bid_job(request,pk):
    
     current_user = request.user 
     try:
-        job = Job.objects.get(slug=slug)
+        job = Job.objects.get(id=pk)
     except:
         return HttpResponseRedirect(reverse('404page'))
+    try:
+        profile = Profile.objects.get(user=request.user)
+    except:
+        profile = None
 
+    offers_count = Quote.objects.filter(job__id=job.id).count()
 
     if request.method == 'POST':
         form = JobQuoteForm(request.POST)
@@ -108,6 +188,7 @@ def bid_job(request,slug):
             quote = form.save(commit=False)
             quote.user = current_user
             quote.job = job
+            quote.profile = profile 
             quote.save()
             try:
                 token = Token.objects.get(user=request.user)  
@@ -116,11 +197,9 @@ def bid_job(request,slug):
                 token.save()
             except:
                 token = None    
-           
-            return redirect('job-page')
+
+            return redirect('sent-quotes')
             
-               
-       
     else:
         form = JobQuoteForm()
     try:
@@ -128,7 +207,7 @@ def bid_job(request,slug):
     except:
         remaining_token = None
     
-    return render (request,'particular-job.html',{'job':job,'form':form,'remaining_token':remaining_token})
+    return render (request,'freelancer/particular-job.html',{'job':job,'form':form,'remaining_token':remaining_token,'offers_count':offers_count})
 
 @login_required
 def profile_dashboard(request,slug):
@@ -136,6 +215,7 @@ def profile_dashboard(request,slug):
         user = User.objects.get(username=slug)
     except:
         return HttpResponseRedirect(reverse('404page'))
+
     current_user = request.user
     try:
         remaining_token = Token.objects.get(user=request.user)
@@ -158,46 +238,64 @@ def profile_dashboard(request,slug):
     else:
         form = ProfileCreationForm()
 
-    return render(request, 'profile.html',{'current_user':current_user,'remaining_token':remaining_token,'form':form,'profile':current_profile})
+    return render(request, 'general/profile.html',{'current_user':current_user,'remaining_token':remaining_token,'form':form,'profile':current_profile})
+
+@login_required
+def all_promoted_business(request):
+    all_business = MerchantPromote.objects.all()
+
+
+    return render(request,'general/all-businesses.html',{'all_business':all_business})
+
+@login_required
+def all_promoted_skills(request):
+    all_skills = FreelanceSkills.objects.all()
+
+    return render(request,'general/all-skills.html',{'all_skills':all_skills})
 
 
 
 @login_required
 def work_place(request):
 
-
-    return render(request,'workplace.html')
+    return render(request,'general/workplace.html')
 
 
 @login_required
+def eclid_digital_nomad(request):
+
+    return render(request,'general/digital-nomad.html')
+
+#check the url of this function to redirect to another page
+@login_required
 def post_digital_job(request):
-    digital_job_amount = 1150
+    digital_job_amount = 1000
 
     current_user = request.user
     try:
-        post_job = JobPayment.objects.get(user=request.user)
+        post_business = BusinessPromotePayment.objects.get(user=request.user)
     except:
-        post_job = None
+        post_business = None
 
     if request.method == 'POST':
         form = DigitalMediaForm(request.POST)
         if form.is_valid():
-            job = form.save(commit=False)
-            job.user = current_user
-            job.save() 
-            post_job.user = current_user
-            post_job.job_post_paid = False
-            post_job.save()
-            return redirect('job-page')   
+            business = form.save(commit=False)
+            business.user = current_user
+            business.save() 
+            post_business.user = current_user
+            post_business.business_post_paid = False
+            post_business.save()
+            return redirect('promoted-business-user',request.user.username)   
     else:
         form = DigitalMediaForm()
 
 
-    return render(request,'digital-media.html',{'form':form,'post_job':post_job,'digital_job_amount':digital_job_amount}) 
+    return render(request,'merchant/digital-media.html',{'form':form,'post_business':post_business,'digital_job_amount':digital_job_amount}) 
 
 @login_required
 def digital_job_purchase(request):
-    digital_job_amount = 1150
+    digital_job_amount = 1000
 
     current_user = request.user
     try:
@@ -212,18 +310,108 @@ def digital_job_purchase(request):
             current_profile.user = current_user
             current_profile.phonenumber = form.cleaned_data['phonenumber']
             current_profile.save()
-            return redirect('token-low')
+            return redirect('digital-job-purchase')
                    
     else:
         form = RegisterProfileForm()
 
 
-    return render(request,'digitaljob-purchase.html',{'digital_job_amount':digital_job_amount,'form':form,'profile':current_profile})
+    return render(request,'merchant/digitaljob-purchase.html',{'digital_job_amount':digital_job_amount,'form':form,'profile':current_profile})
 
+
+#Write views for this function in url
+
+@login_required
+def promoted_business_user(request,slug):
+    try:
+        user = User.objects.get(username=slug)
+    except:
+        return HttpResponseRedirect(reverse('404page'))
+
+    business_renew_amount = 500
+    current_user = request.user
+    all_business_user_count = MerchantPromote.objects.filter(user=current_user).count()
+    all_business_user = MerchantPromote.objects.filter(user=current_user)
+
+
+    return render(request,'merchant/promoted-business-user.html',{'all_business_user':all_business_user,'business_renew_amount':business_renew_amount,'all_business_user_count':all_business_user_count})
+
+
+#Write views for this functions in the url
+@login_required
+def freelance_skills_post(request):
+    freelance_skills_amount = 1000
+
+    current_user = request.user
+    try:
+        post_skill = SkillPromotePayment.objects.get(user=request.user)
+    except:
+        post_skill = None
+
+    if request.method == 'POST':
+        form = FreelanceSkillAdvertiseForm(request.POST)
+        if form.is_valid():
+            skill = form.save(commit=False)
+            skill.user = current_user
+            skill.save() 
+            post_skill.user = current_user
+            post_skill.skill_post_paid = False
+            post_skill.save()
+            return redirect('promoted-skill-user',request.user.username)   
+    else:
+        form = FreelanceSkillAdvertiseForm()
+
+    return render(request,'freelancer/advertise-skills.html',{'freelance_skills_amount':freelance_skills_amount,'form':form,'post_skill':post_skill})
+
+#fix redirect links
+@login_required
+def freelance_skill_purchase(request):
+    freelance_skills_amount = 1000
+    current_user = request.user
+    try:
+        current_profile = Profile.objects.get(user=request.user)
+    except:
+        current_profile = None
+
+
+    if request.method == 'POST':
+        form = RegisterProfileForm(request.POST)
+        if form.is_valid() and current_profile is not None:
+            current_profile.user = current_user
+            current_profile.phonenumber = form.cleaned_data['phonenumber']
+            current_profile.save()
+            return redirect('freelance-skill-purchase')
+                   
+    else:
+        form = RegisterProfileForm()
+
+
+    return render(request,'freelancer/advertise-skill-purchase.html',{'freelance_skills_amount':freelance_skills_amount,'form':form,'profile':current_profile})
+
+
+
+    
+@login_required
+def promoted_skill_user(request,slug):
+    try:
+        user = User.objects.get(username=slug)
+    except:
+        return HttpResponseRedirect(reverse('404page'))
+    current_user = request.user
+
+    freelance_skill_count = FreelanceSkills.objects.filter(user=current_user).count()
+    freelance_skill = FreelanceSkills.objects.filter(user=current_user)
+
+    freelance_skills_renew_amount = 500
+    
+
+
+    return render(request,'freelancer/promoted-skill-user.html',{'freelance_skill':freelance_skill,'freelance_skills_renew_amount':freelance_skills_renew_amount,'freelance_skill_count':freelance_skill_count})
+#These views above need urls 
 
 @login_required
 def post_job(request):
-    post_job_amount = 1350
+    post_job_amount = 1300
     current_user = request.user
     try:
         post_job = JobPayment.objects.get(user=request.user)
@@ -239,16 +427,23 @@ def post_job(request):
             post_job.user = current_user
             post_job.job_post_paid = False
             post_job.save()
-
-            return redirect('job-page')   
+            return redirect('posted-jobs-user')  
     else:
         form = PostJobForm()
 
-    return render(request,'post-job.html',{'form':form,'post_job':post_job,'post_job_amount':post_job_amount})
+    return render(request,'client/post-job.html',{'form':form,'post_job':post_job,'post_job_amount':post_job_amount})
+
+@login_required
+def posted_job_user(request):
+    current_user = request.user
+    post_jobs_user_count = Job.objects.filter(user=current_user).count()
+    post_jobs_user = Job.objects.filter(user=current_user)
+
+    return render(request,'client/posted-jobs-user.html',{'post_jobs_user':post_jobs_user,'post_jobs_user_count':post_jobs_user_count})
 
 @login_required
 def post_job_purchase(request):
-    post_job_amount = 1350
+    post_job_amount = 1300
 
     current_user = request.user
     try:
@@ -263,32 +458,44 @@ def post_job_purchase(request):
             current_profile.user = current_user
             current_profile.phonenumber = form.cleaned_data['phonenumber']
             current_profile.save()
-            return redirect('token-low')
+            return redirect('post-job-purchase')
                    
     else:
         form = RegisterProfileForm()
 
 
-    return render(request,'postjob-purchase.html',{'post_job_amount':post_job_amount,'form':form,'profile':current_profile})
+    return render(request,'client/postjob-purchase.html',{'post_job_amount':post_job_amount,'form':form,'profile':current_profile})
 
+@login_required
+def received_quotes(request):
+    current_user = request.user.id
+   
 
+    job_quotes_count = Quote.objects.filter(job__user_id=current_user).count()
+    job_quotes = Quote.objects.filter(job__user_id=current_user)
 
+    return render(request,'client/received-quotes.html',{'job_quotes':job_quotes,'job_quotes_count':job_quotes_count})
 
-
+@login_required
+def sent_quotes(request):
+    current_user = request.user
+    sent_job_quotes_count = Quote.objects.filter(user=current_user).count()
+    sent_job_quotes = Quote.objects.filter(user=current_user)
+    return render(request,'freelancer/sent-quotes.html',{'sent_job_quotes':sent_job_quotes,'sent_job_quotes_count':sent_job_quotes_count})
 
 @login_required
 def token_purchase(request):
     
-    low_amount = 300.0
+    low_amount = 200.0
     medium_amount = 850.0
-    high_amount = 1200.0
+    high_amount = 1500.0
 
-    return render(request,'token-purchase.html',{'low_amount':low_amount,'medium_amount':medium_amount,'high_amount':high_amount})
+    return render(request,'freelancer/token-purchase.html',{'low_amount':low_amount,'medium_amount':medium_amount,'high_amount':high_amount})
 
 
 @login_required
 def low_purchase(request):
-    low_amount = 300
+    low_amount = 200
     current_user = request.user
     try:
         current_profile = Profile.objects.get(user=request.user)
@@ -307,7 +514,7 @@ def low_purchase(request):
     else:
         form = RegisterProfileForm()
 
-    return render(request,'token-low.html',{'low_amount':low_amount,'form':form,'profile':current_profile})
+    return render(request,'freelancer/token-low.html',{'low_amount':low_amount,'form':form,'profile':current_profile})
 
 @login_required
 def medium_purchase(request):
@@ -329,11 +536,11 @@ def medium_purchase(request):
                    
     else:
         form = RegisterProfileForm()
-    return render(request,'token-medium.html',{'medium_amount':medium_amount,'form':form,'profile':current_profile})
+    return render(request,'freelancer/token-medium.html',{'medium_amount':medium_amount,'form':form,'profile':current_profile})
 
 @login_required
 def high_purchase(request):
-    high_amount = 1200
+    high_amount = 1500
     current_user = request.user
     try:
         current_profile = Profile.objects.get(user=request.user)
@@ -351,7 +558,7 @@ def high_purchase(request):
                    
     else:
         form = RegisterProfileForm()
-    return render(request,'token-high.html',{'high_amount':high_amount,'form':form,'profile':current_profile})
+    return render(request,'freelancer/token-high.html',{'high_amount':high_amount,'form':form,'profile':current_profile})
 
 
 @login_required
@@ -363,7 +570,7 @@ def pagenotfound(request):
 
     return render(request,'404.html')
 
-
+#Change the validation urls
 @csrf_exempt
 def register_urls(request):
     access_token = MpesaAccessToken.validated_mpesa_access_token
@@ -436,12 +643,12 @@ def check_transaction(request):
     try:
         valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
-        if amount_transacted == 300.00 and eclid_token is None:
-            token = Token(user=current_user,bid_token=3)
+        if amount_transacted == 200.00 and eclid_token is None:
+            token = Token(user=current_user,bid_token=1)
             token.save()
-        elif amount_transacted == 300.00 and eclid_token is not None:
+        elif amount_transacted == 200.00 and eclid_token is not None:
             eclid_token.user = current_user
-            eclid_token.bid_token = 3
+            eclid_token.bid_token = 1
             eclid_token.save()
 
         if amount_transacted == 850.00 and eclid_token is None:
@@ -452,17 +659,19 @@ def check_transaction(request):
             eclid_token.bid_token = 12
             eclid_token.save()
 
-        if amount_transacted == 1200.00 and eclid_token is None:
+        if amount_transacted == 1500.00 and eclid_token is None:
             token = Token(user=current_user,bid_token=25)
             token.save()
-        elif amount_transacted == 1200.00 and eclid_token is not None:
+        elif amount_transacted == 1500.00 and eclid_token is not None:
             eclid_token.user = current_user
             eclid_token.bid_token = 25
             eclid_token.save()
         valid_transaction.delete()
+        messages.success(request, 'You have received Eclid tokens to your user dashboard.') 
         return redirect('profile-dashboard',request.user.username)
 
     except ObjectDoesNotExist:
+        messages.warning(request, 'Payment confirmation invalid.') 
         return redirect('token-purchase')
         
 
@@ -488,14 +697,16 @@ def post_job_transaction(request):
             posted_job.save()
 
         elif amount_transacted == 1300.00 and job_to_post is not None:
-            posted_job.user = current_user
-            posted_job.job_post_paid = True
-            posted_job.save()
+            job_to_post.user = current_user
+            job_to_post.job_post_paid = True
+            job_to_post.save()
         
         valid_transaction.delete()
+        messages.success(request, 'Payment has been confirmed.Post your job in the form below') 
         return redirect('post-job')
 
     except ObjectDoesNotExist:
+        messages.warning(request, 'Payment confirmation invalid.') 
         return redirect('post-job-purchase')
 
 
@@ -509,31 +720,123 @@ def promote_business_transaction(request):
     except:
         available_phone_number = None
     try:
-        job_to_post = JobPayment.objects.get(user=request.user)
+        business_to_post = BusinessPromotePayment.objects.get(user=request.user)
     except:
-        job_to_post = None
+        business_to_post = None
 
     try:
         valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
-        if amount_transacted == 1150.00 and job_to_post is None:
-            posted_job = JobPayment(user=current_user,job_post_paid=True)
-            posted_job.save()
+        if amount_transacted == 1000.00 and business_to_post is None:
+            posted_business = BusinessPromotePayment(user=current_user,business_post_paid=True)
+            posted_business.save()
 
-        elif amount_transacted == 1150.00 and job_to_post is not None:
-            posted_job.user = current_user
-            posted_job.job_post_paid = True
-            posted_job.save()
+        elif amount_transacted == 1000.00 and business_to_post is not None:
+            business_to_post.user = current_user
+            business_to_post.business_post_paid = True
+            business_to_post.save()
         
         valid_transaction.delete()
+        messages.success(request, 'Payment has been confirmed.Promote your business below.') 
         return redirect('digital-media')
 
     except ObjectDoesNotExist:
+        messages.warning(request, 'Payment confirmation invalid.') 
         return redirect('digital-job-purchase')
 
+#Work on this function to redirect to the correct page after user renews business post
+@login_required
+def renew_business_transaction(request,pk):
+    current_user = request.user
+    try:
+        available_phone_number = Profile.objects.get(user=request.user)
+        user_phone_number = available_phone_number.phonenumber
+    except:
+        available_phone_number = None
+
+    next_renewal = timezone.now()+timedelta(days=30)
+          
+    try:
+        business_to_renew = MerchantPromote.objects.get(id=pk)
+    except:
+        business_to_renew = None
+    try:
+        valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
+        amount_transacted = valid_transaction.amount
+        if amount_transacted == 500.00 and business_to_renew is not None:
+            business_to_renew.expiry_date = next_renewal
+            business_to_renew.save()
+
+        valid_transaction.delete()
+        return redirect('promoted-business-user',request.user.username)
+    except ObjectDoesNotExist:
+        messages.warning(request, 'Payment confirmation invalid.') 
+        return redirect('promoted-business-user',request.user.username)
+       
+
+#work on this function to redirect to the correct url after payment has been made.
+@login_required
+def promote_skill_transaction(request):
+    current_user = request.user
+    try:
+        available_phone_number = Profile.objects.get(user=request.user)
+        user_phone_number = available_phone_number.phonenumber
+    except:
+        available_phone_number = None
+    try:
+        skill_to_post = SkillPromotePayment.objects.get(user=request.user)
+    except:
+        skill_to_post = None
+
+    try:
+        valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
+        amount_transacted = valid_transaction.amount
+        if amount_transacted == 1000.00 and skill_to_post is None:
+            posted_skill = SkillPromotePayment(user=current_user,skill_post_paid=True)
+            posted_skill.save()
+        
+        elif amount_transacted == 1000.00 and skill_to_post is not None:
+            skill_to_post.user = current_user
+            skill_to_post.skill_post_paid = True
+            skill_to_post.save()
+
+        valid_transaction.delete()
+        messages.success(request, 'Payment has been confirmed.Promote your skill in the form below.') 
+        return redirect('freelance-skill-post')
+
+    except ObjectDoesNotExist:
+        messages.warning(request, 'Payment confirmation invalid.') 
+        return redirect('freelance-skill-purchase')
+
+@login_required
+def renew_skill_transaction(request,pk):
+    current_user = request.user
+    try:
+        available_phone_number = Profile.objects.get(user=request.user)
+        user_phone_number = available_phone_number.phonenumber
+    except:
+        available_phone_number = None
+
+    next_renewal = timezone.now()+timedelta(days=30)
+    try:
+        skill_to_renew = FreelanceSkills.objects.get(id=pk)
+    except:
+        skill_to_renew = None
+    try:
+        valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
+        amount_transacted = valid_transaction.amount
+        if amount_transacted == 500.00 and skill_to_renew is not None:
+            skill_to_renew.expiry_date = next_renewal
+            skill_to_renew.save()
+
+        valid_transaction.delete()
+        return redirect('promoted-skill-user',request.user.username)
+    except ObjectDoesNotExist:
+        messages.warning(request, 'Payment confirmation invalid.') 
+        return redirect('promoted-skill-user',request.user.username)
 
 
-    
+
 
 
 

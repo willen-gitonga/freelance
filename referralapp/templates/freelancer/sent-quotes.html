@@ -1,0 +1,45 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+<head>
+    <link rel="stylesheet" href="../../static/css/custom.css">
+    </head>
+    <br>
+{% if sent_job_quotes_count == 0%}
+<div class="container">
+    <br><br><br><br>
+<h4 style="text-align: center;">You have not currently made any offers.</h4>
+<h5 style="text-align: center;">Offers you make on projects will appear here. <br> <br>
+
+    <a href="{% url 'token-purchase' %}" style="text-align: center;">Buy elcid tokens and start making offers on projects.</a>
+</h5>
+
+</div>
+
+{% else %}
+
+{% for job_quote in sent_job_quotes %}
+<div class="container">
+    <br>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="card-text">
+            <b>
+            {{job_quote.job.job_title}} <br>
+        </b>
+            {{job_quote.quote}} <br>
+            <b>
+          <strong class="text-secondary"><i class="fa fa-money" style="font-size:18px"></i> {{job_quote.quote_amount}} KES</strong> 
+            <h6 class="float-right" style="color: lawngreen;">Offer made succesfully.</h6> </b>
+
+        </div>
+    </div>
+</div>
+</div>
+
+{%endfor%}
+
+{%endif%}
+{% endblock %}

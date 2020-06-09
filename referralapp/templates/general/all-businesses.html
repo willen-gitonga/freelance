@@ -1,0 +1,39 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+<head>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+  <link rel="stylesheet" href="../../static/css/reg.css">
+  </head>
+  <br>
+{% for business in all_business %}
+
+<div class="container">
+ 
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="card-text">
+              <p>{{business.business_name}}</p><br>
+              {{business.business_description}} <br>
+              {{business.business_charge}} <br>
+              {{business.business_link}} <br>
+            </div>
+         
+  
+      
+        <a href=""  class="btndis btn-xs btn-info float-right loginbtn3">View Details</a>
+             
+            </div>
+           
+           
+        </div>
+     
+     
+    </div>
+  
+  
+{% endfor %}
+
+{% endblock %}

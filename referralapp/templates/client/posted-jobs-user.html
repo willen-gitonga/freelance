@@ -1,0 +1,78 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+<head>
+    <link rel="stylesheet" href="../../static/css/custom.css">
+    <link rel="stylesheet" href="../../static/css/reg.css">
+    </head>
+<br><br>
+
+{% if post_jobs_user_count == 0 %}
+
+<div class="container">
+    <br><br><br><br>
+<h4 style="text-align: center;">You have not posted any projects yet.</h4><br>
+<h5 style="text-align: center;">
+
+    <a href="{% url 'post-job'  %}" style="text-align: center;">Post a project and work with top freelancers.</a>
+</h5>
+
+</div>
+
+{%else%}
+
+{% for job in post_jobs_user  %}
+
+<div class="container">
+ 
+    <div class="card mb-3">
+        <div class="card-body">
+          <b> <p class="card-text">{{job.job_title}}</p> </b>
+         
+           <b>  <p class="card-text float-right text-secondary">{{job.lower_limit}}.0-{{job.upper_limit}}.0 KES</p></b>
+   
+            {% if job.job_category == 1  %}
+             <b><p class="card-text text-secondary">IT & Software Development</p></b>
+            {% endif %}
+            {% if job.job_category == 2  %}
+            <b><p class="card-text text-secondary">Product & Services</p></b>
+           {% endif %}
+           {% if job.job_category == 3  %}
+           <b><p class="card-text text-secondary">Marketing Strategy & Research</p></b>
+          {% endif %}
+          {% if job.job_category == 4  %}
+          <b><p class="card-text text-secondary">Writing & Transcription</p></b>
+         {% endif %}
+         {% if job.job_category == 5  %}
+         <b><p class="card-text text-secondary">Business & Customer Service</p></b>
+        {% endif %}
+        {% if job.job_category == 6  %}
+        <b><p class="card-text text-secondary">Agents & Referral Services</p></b>
+       {% endif %}
+       {% if job.job_category == 7  %}
+       <b><p class="card-text text-secondary">Data Entry</p></b>
+      {% endif %}
+      {% if job.job_category == 8  %}
+      <b><p class="card-text text-secondary">Other Category</p></b>
+     {% endif %}
+  
+        <a href="#"  class="btndis btn-xs btn-info float-right loginbtn3">View project</a>
+             
+            </div>
+           
+           
+        </div>
+     
+     
+    </div>
+  
+
+{% endfor %}
+
+{%endif%}
+
+
+
+{% endblock %}

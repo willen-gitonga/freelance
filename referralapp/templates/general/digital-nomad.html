@@ -1,0 +1,93 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+
+<head>
+    <link rel="stylesheet" href="../../static/css/custom.css">
+</head>
+<br><br><br>
+<div class="container">
+
+
+<div id="accordion">
+
+    <div class="card">
+      <div class="card-header">
+          <b>
+        <a class="card-link" data-toggle="collapse" href="#collapseOne" style="color: black;">
+          Who is an Eclid DigiNomad?
+        </a>
+    </b>
+      </div>
+      <div id="collapseOne" class="collapse show" data-parent="#accordion">
+        <div class="card-body">
+          An Elcid DigiNomad is the partner on the ground.Once joined as a DigiNomad you will get access to special discounted offers on your Elcid purchases. <br>
+          This means that all your <strong>promoted skills and businesses are on us</strong> for a month.You also get <strong>6000 KES</strong> worth of purchases which are <strong>redeemable in both ways.</strong>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-header">
+          <b>
+        <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo" style="color: black;">
+          How do i become an Eclid DigiNomad?
+        </a>
+    </b>
+      </div>
+      <div id="collapseTwo" class="collapse" data-parent="#accordion">
+        <div class="card-body">
+          Joining the Eclid DigiNomad community is easy.Just sign up <strong>twenty new Eclid workers</strong> using your activity link.They should each make an Elcid purchase worth more than <strong>850 KES</strong>,so that your <strong>Eclid offers</strong> are valid.
+          <br><br><br>
+          <input type="text" value="https://eclidworkers.com/dashboard/{{request.user.username}}" id="myInput"><br>
+            <button class="btndis2 btn btn-sm" onclick="myFunction()">Copy</button>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-header">
+          <b>
+        <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree" style="color: black;">
+          How do i claim my Eclid offers?
+        </a>
+    </b>
+      </div>
+      <div id="collapseThree" class="collapse" data-parent="#accordion">
+        <div class="card-body">
+          Already signed up <strong>twenty new Eclid workers that have made the purchases?That was pretty easy.<br><br>
+         After this getting your offers is a piece of cake.</strong> <br>
+        Just send us a message below attached with your activity link.<br>
+        At this point the automated system should take care of the rest.
+         
+        </div>
+      </div>
+    </div>
+  
+  </div>
+</div>
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ed36c16c75cbf1769f0f4a2/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+
+<script>
+    function myFunction() {
+      var copyText = document.getElementById("myInput");
+      copyText.select();
+      copyText.setSelectionRange(0, 99999)
+      document.execCommand("copy");
+      
+    }
+    </script>
+
+{% endblock %}

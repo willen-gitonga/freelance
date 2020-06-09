@@ -8,8 +8,10 @@
     <link rel="icon" href="../../static/img/favicon.png">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../static/css/nav.css">
 </head>
 <body>
     
@@ -17,7 +19,7 @@
 
 
 
-<nav class="navbar navbar-expand-lg navbar-dark  fixed-top" style="background-color: #2BC6FA;">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #13B5FA;">
     <div class="container">
         <a class="navbar-brand" href="{% url 'job-page' %}"> <img src="../../static/img/theeclidlogos.png" alt="logo" class="img-fluid" style="width: 31%;"></a>
         <!-- links toggle -->
@@ -31,18 +33,63 @@
 
         <div class="collapse navbar-collapse" id="links">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'job-page' %}" style="color:white;">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'job-page' %}" style="color: white;">Browse Jobs</a>
-                </li>
+               
                 {%if user.is_authenticated%}
-                <li class="nav-item"><a class="nav-link" href="{% url 'profile-dashboard' request.user.username %}" style="color: white;">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'work-place' %}" style="color: white;">Post Job</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'signout' %}" style="color: white;">Log out</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'job-page' %}" style="color: white;">Browse Jobs</a></li>
+                <li class="nav-item dropdown dropdownn megamenu"><a id="megamneu" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle" style="color: white;">Categories</a>
+                    <div aria-labelledby="megamneu" class="dropdown-menu" style="background-color:#13B5FA ;">
+                                  <ul class="list-unstyled">
+                                    <li class="nav-item"><a href="{% url 'sorted-software-jobs' %}" class="nav-link text-small pb-0 " style="color: white;">Software/IT Jobs</a></li>
+                                   
+                                    <li class="nav-item"><a href="{% url 'sorted-product-jobs' %}" class="nav-link text-small pb-0 " style="color: white;">Product/Service Jobs</a></li>
+                                    <li class="nav-item"><a href="{% url 'sorted-marketing-jobs' %}" class="nav-link text-small pb-0 " style="color: white;">Marketing Jobs</a></li>
+                                    <li class="nav-item"><a href="{% url 'sorted-writing-jobs' %}" class="nav-link text-small pb-0 " style="color: white;">Writing/Transcription Jobs</a></li>
+                                    <li class="nav-item"><a href="{% url 'sorted-customer-service-jobs' %}" class="nav-link text-small pb-0 " style="color: white;">Business/Customer Service Jobs</a></li>
+                                    <li class="nav-item"><a href="{% url 'sorted-referral-jobs' %}" class="nav-link text-small pb-0 " style="color: white;">Agents/Referral Services Jobs</a></li>
+                                    <li class="nav-item"><a href="{% url 'sorted-data-entry-jobs' %}" class="nav-link text-small pb-0 " style="color: white;">Data Entry Jobs</a></li>
+                                    <li class="nav-item"><a href="{% url 'sorted-unspecified-jobs' %}" class="nav-link text-small pb-0 " style="color: white;">Other</a></li>
+                                    
+                                  </ul>
+                               
+                      
+                    </div>
+                  </li>
+                  <!-- <li class="nav-item dropdown dropdownn megamenu"><a id="megamneu" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle" style="color: white;">Promoted Posts</a>
+                    <div aria-labelledby="megamneu" class="dropdown-menu" style="background-color:#13B5FA ;">
+                                  <ul class="list-unstyled">
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 " style="color: white;"></a></li>
+                                   
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 " style="color: white;"></a></li>
+                                    <li class="nav-item"><a href="" class="nav-link text-small pb-0 " style="color: white;"></a></li>
+                                    
+                                  </ul>
+                               
+                      
+                    </div>
+                  </li> -->
+                <li class="nav-item"><a class="nav-link" href="{% url 'work-place' %}" style="color: white;">Eclid Solutions</a></li>
+                <li class="nav-item dropdown dropdownn megamenu"><a id="megamneu" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle" style="color: white;">{{request.user.username}}</a>
+                    <div aria-labelledby="megamneu" class="dropdown-menu" style="background-color:#13B5FA ;">
+                                  <ul class="list-unstyled">
+                                    <li class="nav-item"><a href="{% url 'profile-dashboard' request.user.username %}" class="nav-link text-small pb-0 " style="color: white;">My Profile</a></li>
+                                   
+                                    <li class="nav-item"><a href="{% url 'received-quotes'  %}" class="nav-link text-small pb-0 " style="color: white;">Project Dashboard</a></li>
+                                    <li class="nav-item"><a href="{% url 'promoted-business-user' request.user.username %}" class="nav-link text-small pb-0 " style="color: white;">Business Promoted</a></li>
+                                    <li class="nav-item"><a href="{% url 'promoted-skill-user' request.user.username %}" class="nav-link text-small pb-0 " style="color: white;">Skills Promoted</a></li>
+                                    
+                                    
+                                  </ul>
+                               
+                      
+                    </div>
+                  </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}" style="color: white;">Log out</a></li>
                 {%else%}
-                <li class="nav-item"><a class="nav-link" href="{% url 'signin' %}"><span class="glyphicon glyphicon-log-in" style="color: white;"></span> Login</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'work-place' %}" style="color: white;">Eclid Solutions</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}" style="color: white;">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'signup' %}" style="color: white;">GET STARTED</a></li>
                 {%endif%}
           
             </ul>
@@ -53,8 +100,19 @@
     </div>
 </nav>
 
+<script>
+    $(document).ready(function () {
+        $('li.dropdownn').hover(function () {
+            $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeIn(400);
+        }, function () {
+            $(this).find('.dropdown-menu').stop(true, true).delay(100).fadeOut(400);
+        });
+      
+     });
+    
+     
+    </script>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 </body>

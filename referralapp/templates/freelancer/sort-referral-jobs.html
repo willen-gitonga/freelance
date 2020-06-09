@@ -1,0 +1,92 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+<head>
+  <link rel="stylesheet" href="../../static/css/custom.css">
+  <link rel="stylesheet" href="../../static/css/reg.css">
+  </head>
+  <br>
+  {% if count_jobs == 0 %}
+  
+  <div class="container">
+    <br><br><br>
+    <h4 style="text-align: center;">No new jobs in this category have been posted today by project owners.</h4>
+    <h5 style="text-align: center;">Check back later for new jobs that have been posted in this category.</h5>
+  </div>
+    {%else%}
+   
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>!</strong> Agents & Referral Services jobs displayed here have not been completed yet and the project owners are still accepting offers.
+  </div>
+{% for job in sorted_jobs %}
+
+<div class="container">
+ 
+  <div class="card mb-3">
+      <div class="card-body">
+        <b> <p class="card-text">{{job.job_title}}</p> </b>
+       
+         <b>  <p class="card-text float-right text-secondary">{{job.lower_limit}}-{{job.upper_limit}} KES</p></b>
+ 
+        
+         {% if job.job_category == 1  %}
+         <b><p class="card-text text-secondary">IT & Software Development</p></b>
+        {% endif %}
+        {% if job.job_category == 2  %}
+        <b><p class="card-text text-secondary">Product & Services</p></b>
+       {% endif %}
+       {% if job.job_category == 3  %}
+       <b><p class="card-text text-secondary">Marketing Strategy & Research</p></b>
+      {% endif %}
+      {% if job.job_category == 4  %}
+      <b><p class="card-text text-secondary">Writing & Transcription</p></b>
+     {% endif %}
+     {% if job.job_category == 5  %}
+     <b><p class="card-text text-secondary">Business & Customer Service</p></b>
+    {% endif %}
+    {% if job.job_category == 6  %}
+    <b><p class="card-text text-secondary">Agents & Referral Services</p></b>
+   {% endif %}
+   {% if job.job_category == 7  %}
+   <b><p class="card-text text-secondary">Data Entry</p></b>
+  {% endif %}
+  {% if job.job_category == 8  %}
+  <b><p class="card-text text-secondary">Other Category</p></b>
+ {% endif %}
+      <a href="{% url 'bid-job' job.id%}"  class="btndis btn-xs btn-info float-right loginbtn3">Make an offer</a>
+           
+          </div>
+         
+         
+      </div>
+   
+   
+  </div>
+  
+{% endfor %}
+{%endif%}
+
+
+<div class="container">
+<div class="pagination">
+  <b>
+  <span class="step-links">
+      {% if sorted_jobs.has_previous %}
+          <a href="?page={{ sorted_jobs.previous_page_number }}">&laquo; Previous</a>
+      {% endif %}
+
+     
+
+      {% if sorted_jobs.has_next %}
+          
+          <a href="?page={{ sorted_jobs.next_page_number }}">Next &raquo;</a>
+      {% endif %}
+  </span>
+  </b>
+</div>
+</div>
+
+{% endblock %}

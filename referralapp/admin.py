@@ -7,7 +7,11 @@ admin.site.register(JobPayment)
 admin.site.register(Token)
 admin.site.register(Profile)
 admin.site.register(Quote)
+admin.site.register(FreelanceSkills)
+admin.site.register(MerchantPromote)
 admin.site.register(MpesaPayment)
+admin.site.register(BusinessPromotePayment)
+admin.site.register(SkillPromotePayment)
 
 
 

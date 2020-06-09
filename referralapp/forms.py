@@ -1,26 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Token,Profile,Job,Quote
+from .models import Token,Profile,Job,Quote,FreelanceSkills,MerchantPromote
 
 
-
-class SigninForm(forms.Form):
-    username = forms.CharField(
-		label='',
-		widget=forms.TextInput(
-
-			attrs={
-				"placeholder": "Username",
-				
-			}
-		))
-    password = forms.CharField(
-		label='',
-		widget=forms.PasswordInput(attrs={
-				"placeholder": "Password",
-				
-			}))
 	
 class SignupForm(UserCreationForm):
 	def __init__(self, *args, **kwargs):
@@ -84,14 +67,14 @@ class JobQuoteForm(forms.ModelForm):
 		super(JobQuoteForm, self).__init__(*args, **kwargs)
 		self.fields['quote'].widget.attrs = {
 			'style':'height:240px;',
-			'placeholder': 'Let the client know you are the best person for the job.Show that you can complete the task in adequate time.Also include your job rate.',
+			'placeholder': 'Let the employer know you are the best person for the job.Show that you can complete the task in adequate time.Also include your job rate amount.',
 
 		}
-		self.fields['quote'].label = 'My Quote:'
+		self.fields['quote'].label = 'My Offer:'
 
 			
 		self.fields['quote'].required = True
-		self.fields['quote_amount'].label = 'Job Rate/hrs'
+		self.fields['quote_amount'].label = 'Job Rate'
 			
 	class Meta:
 		model = Quote
@@ -106,36 +89,36 @@ class PostJobForm(forms.ModelForm):
 		super(PostJobForm, self).__init__(*args, **kwargs)
 		self.fields['job_requirements'].widget.attrs = {
 			'style':'height:240px;',
-			'placeholder': 'Give a brief description of what your job entails.',
+			'placeholder': 'Give a brief description of what your project entails.',
 		}
 		self.fields['job_requirements'].label = ''
 		self.fields['job_requirements'].required = True
 
 		self.fields['job_title'].widget.attrs = {
-			'placeholder': 'What is the title of your job?',
+			'placeholder': 'What is the title of your project?',
 		}
 		self.fields['job_title'].label = ''
 		self.fields['job_title'].required = True
 		self.fields['job_title'].help_text = 'The title can be something like: I need a software designed'
 
 
-		self.fields['lower_limit'].label = 'Least amount you will be spending? - KES'
+		self.fields['lower_limit'].label = 'Least amount you will be paying top candidates? - KES'
 		self.fields['lower_limit'].required = True
 
 		
-		self.fields['upper_limit'].label = 'Highest amount you will be spending? - KES'
+		self.fields['upper_limit'].label = 'Highest amount you will be paying top candidates? - KES'
 		self.fields['upper_limit'].required = True
 		
-		self.fields['job_category'].label = 'Choose a category for your job'
+		self.fields['job_category'].label = 'Choose a category for your project from the list'
 		self.fields['job_category'].required = True
 
 		self.fields['job_link'].widget.attrs = {
-			'placeholder': 'Paste Your Link Here',
+			'placeholder': 'Link to similar project',
 			'input_type':'url',
 		}
 		self.fields['job_link'].label = ''
 		self.fields['job_link'].required = False
-		self.fields['job_link'].help_text = 'This can be a link to any sample project,your online shop,social media page or Agent link.You can only paste one link.'
+		self.fields['job_link'].help_text = 'This can be a link to any sample project.You can only paste one link.'
 
 
 	class Meta:
@@ -149,56 +132,82 @@ class DigitalMediaForm(forms.ModelForm):
 
 		super(DigitalMediaForm, self).__init__(*args, **kwargs)
 
-		self.fields['job_requirements'].widget.attrs = {
+		self.fields['business_description'].widget.attrs = {
 			'style':'height:240px;',
-			'placeholder': 'Description of what your business does.Also include contact details that customers can reach you on directly.',
+			'placeholder': 'Description of what products you sell.Show that the quality of your products is superb and the prices are pocket friendly to customers.You can also include where you are based.',
 		}
-		self.fields['job_requirements'].label = ''
-		self.fields['job_requirements'].required = True
+		self.fields['business_description'].label = ''
+		self.fields['business_description'].required = True
 
-		self.fields['job_title'].widget.attrs = {
+		self.fields['business_name'].widget.attrs = {
 			'placeholder': 'Name of your business?',
 		}
-		self.fields['job_title'].label = ''
-		self.fields['job_title'].required = True
+		self.fields['business_name'].label = ''
+		self.fields['business_name'].required = True
 
-		self.fields['lower_limit'].label = 'Least amount you will be paying to top candidates? - KES'
-		self.fields['lower_limit'].required = True
-		self.fields['lower_limit'].help = 'All currencies should be in kenyan shillings.'
+		self.fields['business_charge'].label = 'How much do you sell your products at? - KES'
+		self.fields['business_charge'].required = True
+		self.fields['business_charge'].help = 'All currencies should be in kenyan shillings.'
 
-		
-		self.fields['upper_limit'].label = 'Highest amount you will be paying to top candidates? - KES'
-		self.fields['upper_limit'].required = True
-		self.fields['upper_limit'].help = 'All currencies should be in kenyan shillings.'
-
-		
-
-		self.fields['digital_category'].label = 'What solution are you looking for?'
-		self.fields['digital_category'].required = True
-
-		self.fields['job_link'].widget.attrs = {
-			'placeholder': 'Link to my online business',
+		self.fields['business_link'].widget.attrs = {
+			'placeholder': 'Products that my business sells',
 			'input_type':'url',
 		}
-		self.fields['job_link'].label = ''
-		self.fields['job_link'].required = True
-		self.fields['job_link'].help_text = 'Link to your online shop,site or social media page.You can only paste one link.'
+		self.fields['business_link'].label = ''
+		self.fields['business_link'].required = True
+		self.fields['business_link'].help_text = 'This is a link to your online store,site or social media page.You can only paste one link.Product does not only apply to tangible goods.'
 
 
 	class Meta:
-		model = Job
-		fields = ('job_title','digital_category','job_requirements','lower_limit','upper_limit','job_link')
+		model = MerchantPromote
+		fields = ('business_name','business_description','business_charge','business_link')
+
+
+class FreelanceSkillAdvertiseForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+
+		super(FreelanceSkillAdvertiseForm, self).__init__(*args, **kwargs)
+
+		self.fields['freelance_description'].widget.attrs = {
+			'style':'height:240px;',
+			'placeholder': 'Description of what you do.Show your level experience,the good quality of your work and technologies you are proficient in if any.This will attract more clients who view your promoted skill.',
+		}
+		self.fields['freelance_description'].label = ''
+		self.fields['freelance_description'].required = True
+
+		
+		self.fields['freelance_skill'].label = 'Choose the type of skill you want to promote from the list below.'
+		self.fields['freelance_skill'].required = True
+
+		self.fields['freelance_charge'].label = 'How much do you normally charge? - KES'
+		self.fields['freelance_charge'].required = True
+		self.fields['freelance_charge'].help = 'All currencies should be in kenyan shillings.'
+
+		self.fields['freelance_link'].widget.attrs = {
+			'placeholder': 'Link to my best work',
+			'input_type':'url',
+		}
+		self.fields['freelance_link'].label = ''
+		self.fields['freelance_link'].required = True
+		self.fields['freelance_link'].help_text = 'This can be a link to your social media showing your previous work,a link to your portfolio showing your previous work or google drive link.You can paste one link only.Maximum 100 characters.If the link is too long use a url shortener and then add it.'
+
+
+	class Meta:
+		model = FreelanceSkills
+		fields = ('freelance_skill','freelance_description','freelance_charge','freelance_link')
+
+
 
 class RegisterProfileForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 
 		super(RegisterProfileForm, self).__init__(*args, **kwargs)
 		self.fields['phonenumber'].widget.attrs = {
-			'placeholder': 'Phone Number 2547xxxxxxxx',
+			'placeholder': '2547xxxxxxxx',
 		}
 		self.fields['phonenumber'].required = True
-		self.fields['phonenumber'].label = ''
-		self.fields['phonenumber'].help_text = 'Input your phone number starting with 254 without the plus sign(+).'
+		self.fields['phonenumber'].label = 'Enter phone number'
+		self.fields['phonenumber'].help_text = 'Enter your phone number starting with country code 254 without the plus sign(+).'
 
 
 	def clean_phonenumber(self):
@@ -208,7 +217,7 @@ class RegisterProfileForm(forms.ModelForm):
 			raise forms.ValidationError("The phone number is already registered.")
 		return phone_number
 	phonenumber = forms.CharField(
-		min_length=12,
+		max_length=12,
 	
 	)
 
