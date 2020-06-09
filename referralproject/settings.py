@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'referralapp',
     'bootstrap4',  
-    'mathfilters' 
+    'mathfilters', 
 ]
 
 MIDDLEWARE = [
