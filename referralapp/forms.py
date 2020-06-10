@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Token,Profile,Job,Quote,FreelanceSkills,MerchantPromote
-
+from .models import Token,Profile,Job,Quote,FreelanceSkills,MerchantPromote,MpesaPayment
+from django.core.exceptions import ValidationError
 
 	
 class SignupForm(UserCreationForm):
@@ -150,17 +150,29 @@ class DigitalMediaForm(forms.ModelForm):
 		self.fields['business_charge'].help = 'All currencies should be in kenyan shillings.'
 
 		self.fields['business_link'].widget.attrs = {
-			'placeholder': 'Products that my business sells',
+			'placeholder': 'Link to more products my business sells',
 			'input_type':'url',
 		}
 		self.fields['business_link'].label = ''
 		self.fields['business_link'].required = True
 		self.fields['business_link'].help_text = 'This is a link to your online store,site or social media page.You can only paste one link.Product does not only apply to tangible goods.'
 
+		self.fields['business_product'].label = 'Image of product your business sells'
+		self.fields['business_product'].required = True
+		self.fields['business_product'].help_text = 'Maximum image size 100KB.jpg,jpeg,png only'
+	
+	def clean_image(self):
+		business_product = self.cleaned_data.get("business_product",False)
+		if business_product:
+			if business_product._height > 375 or business_product._width > 500:
+				raise ValidationError("Image size is larger than what is allowed")
+			return business_product
+		else:
+			raise ValidationError("No image found")
 
 	class Meta:
 		model = MerchantPromote
-		fields = ('business_name','business_description','business_charge','business_link')
+		fields = ('business_name','business_description','business_product','business_charge','business_link')
 
 
 class FreelanceSkillAdvertiseForm(forms.ModelForm):
@@ -243,6 +255,13 @@ class ProfileCreationForm(forms.ModelForm):
 	class Meta:
 		model = Profile
 		fields = ('bio',)
+class MpesaPaymentForm(forms.ModelForm):
+
+	class Meta:
+		model = MpesaPayment
+		fields = ('phone_number','amount')
+
+
 		
 		
 

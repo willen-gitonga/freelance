@@ -8,7 +8,27 @@
   <link rel="stylesheet" href="../../static/css/reg.css">
   </head>
   <br>
+ 
+{% if user.is_superuser %}
 
+   <div class="container">
+    <h2>Enter payment details:</h2>
+    <br>
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+    <form  method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% bootstrap_form form%}
+      <button class="btn btn-sm loginbtn2" type="submit"> Verify payment</button>
+  
+   </div>
+   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"></div>
+    </div>
+   </div>
+
+
+
+  {%else%}
   <div class="alert alert-success alert-dismissible">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
   <strong>!</strong>  Jobs displayed on your dashboard have not been completed yet and the project owners are still accepting offers.
@@ -86,4 +106,5 @@
   </b>
 </div>
 </div>
+{%endif%}
 {% endblock %}

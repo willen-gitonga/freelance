@@ -27,15 +27,16 @@
 {% for business in all_business_user %}
 
 <div class="container">
- 
+  <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
   <div class="card mb-3">
       <div class="card-body">
           <div class="card-text">
+            <img  src="{{business.business_product.url}}" class="img-fluid">
            <b><p>{{business.business_name}}</p></b>
             {{business.business_description}}<br><br>
            <strong class="text-secondary">Our charges: {{business.business_charge}} KES</strong> <br>
             <strong class="text-secondary float-right">Valid till {{business.expiry_date|date:'Y-m-d'}}  </strong>
-           <a href="{{business.business_link}}" target="_blank">View our business.</a>
+           <a href="{{business.business_link}}" target="_blank">View more products.</a>
               {% if messages %}
             <ul class="messages">
               {% for message in messages %}
@@ -43,12 +44,12 @@
               {% endfor %}
             </ul>
           {% endif %}
-           
+          <a href="#" id="formButton" class="btndis btn-xs btn-info float-right loginbtn3">Renew Validity</a>
           </div>
        
 
     
-      <a href="#" id="formButton" class="btndis btn-xs btn-info float-right loginbtn3">Renew Validity</a>
+     
       <br><br><br><br>
       <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
       <div class="card" id="form1" style="display: none;">
@@ -81,7 +82,8 @@
          
          
       </div>
-   
+    </div>
+    
    
   </div>
 

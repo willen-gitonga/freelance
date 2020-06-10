@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
 from django.views.generic import UpdateView,TemplateView,CreateView,ListView
-from .forms import SignupForm,JobQuoteForm,ProfileCreationForm,RegisterProfileForm,PostJobForm,DigitalMediaForm,FreelanceSkillAdvertiseForm
+from .forms import SignupForm,JobQuoteForm,ProfileCreationForm,RegisterProfileForm,PostJobForm,DigitalMediaForm,FreelanceSkillAdvertiseForm,MpesaPaymentForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -24,7 +24,7 @@ from datetime import timedelta
 from celery.schedules import crontab
 from celery.task import periodic_task
 from django.contrib import messages
-from .mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
+# from .mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
 from django.views.decorators.csrf import csrf_exempt
 User = get_user_model()
 
@@ -82,13 +82,26 @@ def terms_conditions(request):
 
 @login_required
 def jobs(request):
+
+   
     jobs = Job.objects.order_by('-creation_date')
     current_user = request.user
     paginator = Paginator(jobs,8) #Show 8 jobs per page
     page = request.GET.get('page')
     available_jobs = paginator.get_page(page)
 
-    return render(request, 'freelancer/jobs.html',{'available_jobs':available_jobs})
+    if request.method == 'POST':
+        form = MpesaPaymentForm(request.POST)
+        if form.is_valid():
+            payment = form.save(commit=False)
+            payment.user = current_user
+            payment.save()
+            return redirect('job-page')
+        
+    else:
+        form = MpesaPaymentForm()
+
+    return render(request, 'freelancer/jobs.html',{'available_jobs':available_jobs,"form":form})
 
 @login_required
 def sort_price_highest(request):
@@ -276,12 +289,18 @@ def post_digital_job(request):
         post_business = BusinessPromotePayment.objects.get(user=request.user)
     except:
         post_business = None
+    try:
+        profile = Profile.objects.get(user=request.user)
+    except:
+        profile = None
+
 
     if request.method == 'POST':
-        form = DigitalMediaForm(request.POST)
+        form = DigitalMediaForm(request.POST, request.FILES)
         if form.is_valid():
             business = form.save(commit=False)
             business.user = current_user
+            business.profile = profile
             business.save() 
             post_business.user = current_user
             post_business.business_post_paid = False
@@ -570,61 +589,67 @@ def pagenotfound(request):
 
     return render(request,'404.html')
 
+
+
+
+
 #Change the validation urls
-@csrf_exempt
-def register_urls(request):
-    access_token = MpesaAccessToken.validated_mpesa_access_token
-    api_url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
-    headers = {"Authorization": "Bearer %s" % access_token}
-    options = {"ShortCode": LipanaMpesaPpassword.Test_c2b_shortcode,
-               "ResponseType": "Completed",
-               "ConfirmationURL": "https://eclidworkers.com/jobs/SORT=new/",
-               "ValidationURL": "https://eclidworkers.com/jobs/SORT=new/"}
-    response = requests.post(api_url, json=options, headers=headers)
+# @csrf_exempt
+# def register_urls(request):
+#     access_token = MpesaAccessToken.validated_mpesa_access_token
+#     api_url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
+#     headers = {"Authorization": "Bearer %s" % access_token}
+#     options = {"ShortCode": LipanaMpesaPpassword.Test_c2b_shortcode,
+#                "ResponseType": "Completed",
+#                "ConfirmationURL": "https://eclidworkers.com/jobs/SORT=new/",
+#                "ValidationURL": "https://eclidworkers.com/jobs/SORT=new/"}
+#     response = requests.post(api_url, json=options, headers=headers)
 
-    return HttpResponse(response.text)
-
-
-@csrf_exempt
-def call_back(request):
-    pass
+#     return HttpResponse(response.text)
 
 
-@csrf_exempt
-def validation(request):
-
-    context = {
-        "ResultCode": 0,
-        "ResultDesc": "Accepted"
-    }
-    return JsonResponse(dict(context))
+# @csrf_exempt
+# def call_back(request):
+#     pass
 
 
-@csrf_exempt
-def confirmation(request):
-    mpesa_body =request.body.decode('utf-8')
-    mpesa_payment = json.loads(mpesa_body)
+# @csrf_exempt
+# def validation(request):
 
-    payment = MpesaPayment(
-        first_name=mpesa_payment['FirstName'],
-        last_name=mpesa_payment['LastName'],
-        middle_name=mpesa_payment['MiddleName'],
-        description=mpesa_payment['TransID'],
-        phone_number=mpesa_payment['MSISDN'],
-        amount=mpesa_payment['TransAmount'],
-        reference=mpesa_payment['BillRefNumber'],
-        organization_balance=mpesa_payment['OrgAccountBalance'],
-        type=mpesa_payment['TransactionType'],
+#     context = {
+#         "ResultCode": 0,
+#         "ResultDesc": "Accepted"
+#     }
+#     return JsonResponse(dict(context))
 
-    )
-    payment.save()
 
-    context = {
-        "ResultCode": 0,
-        "ResultDesc": "Accepted"
-    }
+# @csrf_exempt
+# def confirmation(request):
+#     mpesa_body =request.body.decode('utf-8')
+#     mpesa_payment = json.loads(mpesa_body)
 
-    return JsonResponse(dict(context))
+#     payment = MpesaPayment(
+#         first_name=mpesa_payment['FirstName'],
+#         last_name=mpesa_payment['LastName'],
+#         middle_name=mpesa_payment['MiddleName'],
+#         description=mpesa_payment['TransID'],
+#         phone_number=mpesa_payment['MSISDN'],
+#         amount=mpesa_payment['TransAmount'],
+#         reference=mpesa_payment['BillRefNumber'],
+#         organization_balance=mpesa_payment['OrgAccountBalance'],
+#         type=mpesa_payment['TransactionType'],
+
+#     )
+#     payment.save()
+
+#     context = {
+#         "ResultCode": 0,
+#         "ResultDesc": "Accepted"
+#     }
+
+#     return JsonResponse(dict(context))
+
+
 
 
 @login_required
@@ -643,26 +668,26 @@ def check_transaction(request):
     try:
         valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
-        if amount_transacted == 200.00 and eclid_token is None:
+        if amount_transacted == 200 and eclid_token is None:
             token = Token(user=current_user,bid_token=1)
             token.save()
-        elif amount_transacted == 200.00 and eclid_token is not None:
+        elif amount_transacted == 200 and eclid_token is not None:
             eclid_token.user = current_user
             eclid_token.bid_token = 1
             eclid_token.save()
 
-        if amount_transacted == 850.00 and eclid_token is None:
+        if amount_transacted == 850 and eclid_token is None:
             token = Token(user=current_user,bid_token=12)
             token.save()
-        elif amount_transacted == 850.00 and eclid_token is not None:
+        elif amount_transacted == 850 and eclid_token is not None:
             eclid_token.user = current_user
             eclid_token.bid_token = 12
             eclid_token.save()
 
-        if amount_transacted == 1500.00 and eclid_token is None:
+        if amount_transacted == 1500 and eclid_token is None:
             token = Token(user=current_user,bid_token=25)
             token.save()
-        elif amount_transacted == 1500.00 and eclid_token is not None:
+        elif amount_transacted == 1500 and eclid_token is not None:
             eclid_token.user = current_user
             eclid_token.bid_token = 25
             eclid_token.save()
@@ -692,11 +717,11 @@ def post_job_transaction(request):
     try:
         valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
-        if amount_transacted == 1300.00 and job_to_post is None:
+        if amount_transacted == 1300 and job_to_post is None:
             posted_job = JobPayment(user=current_user,job_post_paid=True)
             posted_job.save()
 
-        elif amount_transacted == 1300.00 and job_to_post is not None:
+        elif amount_transacted == 1300 and job_to_post is not None:
             job_to_post.user = current_user
             job_to_post.job_post_paid = True
             job_to_post.save()
@@ -727,11 +752,11 @@ def promote_business_transaction(request):
     try:
         valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
-        if amount_transacted == 1000.00 and business_to_post is None:
+        if amount_transacted == 1000 and business_to_post is None:
             posted_business = BusinessPromotePayment(user=current_user,business_post_paid=True)
             posted_business.save()
 
-        elif amount_transacted == 1000.00 and business_to_post is not None:
+        elif amount_transacted == 1000 and business_to_post is not None:
             business_to_post.user = current_user
             business_to_post.business_post_paid = True
             business_to_post.save()
@@ -763,7 +788,7 @@ def renew_business_transaction(request,pk):
     try:
         valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
-        if amount_transacted == 500.00 and business_to_renew is not None:
+        if amount_transacted == 500 and business_to_renew is not None:
             business_to_renew.expiry_date = next_renewal
             business_to_renew.save()
 
@@ -791,11 +816,11 @@ def promote_skill_transaction(request):
     try:
         valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
-        if amount_transacted == 1000.00 and skill_to_post is None:
+        if amount_transacted == 1000 and skill_to_post is None:
             posted_skill = SkillPromotePayment(user=current_user,skill_post_paid=True)
             posted_skill.save()
         
-        elif amount_transacted == 1000.00 and skill_to_post is not None:
+        elif amount_transacted == 1000 and skill_to_post is not None:
             skill_to_post.user = current_user
             skill_to_post.skill_post_paid = True
             skill_to_post.save()
@@ -825,7 +850,7 @@ def renew_skill_transaction(request,pk):
     try:
         valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
-        if amount_transacted == 500.00 and skill_to_renew is not None:
+        if amount_transacted == 500 and skill_to_renew is not None:
             skill_to_renew.expiry_date = next_renewal
             skill_to_renew.save()
 

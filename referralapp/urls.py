@@ -6,7 +6,7 @@ from .views import (
     HomePageView,profile_dashboard,jobs,bid_job,
     signup,
     pagenotfound,sort_price_highest,messaging_dashboard,
-    register_urls,confirmation,validation,call_back,
+    # register_urls,confirmation,validation,call_back,
     check_transaction,token_purchase,low_purchase,medium_purchase,high_purchase,
     post_job,post_job_purchase,work_place,post_digital_job,digital_job_purchase,
     post_job_transaction,promote_business_transaction,
@@ -22,10 +22,6 @@ from .views import (
     all_promoted_skills,freelance_skills_post,promoted_skill_user, freelance_skill_purchase,renew_skill_transaction,promote_skill_transaction,
 
     eclid_digital_nomad,terms_conditions
-  
-
-    
-
     )
 
 urlpatterns = [
@@ -91,8 +87,10 @@ urlpatterns = [
 
     #url for mpesa API 
     # register, confirmation, validation and callback urls
-    path('c2b/register',register_urls, name="register_mpesa_validation"),
-    path('confirmation/',confirmation, name="confirmation"),
-    path('validation/',validation, name="validation"),
-    path('callback/',call_back, name="call_back"),
+    # path('c2b/register',register_urls, name="register_mpesa_validation"),
+    # path('confirmation/',confirmation, name="confirmation"),
+    # path('validation/',validation, name="validation"),
+    # path('callback/',call_back, name="call_back"),
 ]
+if settings.DEBUG:
+    urlpatterns+= static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

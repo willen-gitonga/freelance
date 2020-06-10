@@ -6,6 +6,7 @@ from autoslug import AutoSlugField
 from datetime import timedelta
 from django.utils import timezone
 
+
 class Job(models.Model):
 	JOB_CATEGORIES = [
 		(1,'IT & Software Development'),
@@ -36,12 +37,24 @@ class Job(models.Model):
 		verbose_name_plural = "Jobs"
 
 
+class Profile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
+	phonenumber = models.CharField(verbose_name="phone_number", max_length=12,null=True)
+	bio = models.TextField(blank=True)
+
+
+	def __str__(self):
+		return self.user.username
+
+
 class MerchantPromote(models.Model):
 	user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+	business_product = models.ImageField(upload_to='images/',null=True)
 	business_name = models.CharField(max_length=60,blank=True)
 	business_description = models.TextField(blank=True)
 	business_charge = models.PositiveIntegerField(default=0,null=True)
 	business_link = models.CharField(max_length=100,blank=True)
+	profile = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True)
 	expiry_date = models.DateTimeField(default=timezone.now()+timedelta(days=30))
 
 	def __str__(self):
@@ -120,15 +133,6 @@ class SkillPromotePayment(models.Model):
 		verbose_name_plural = 'Skill Promote Payments'
 
 
-class Profile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
-	phonenumber = models.CharField(verbose_name="phone_number", max_length=12,null=True)
-	bio = models.TextField(blank=True)
-
-
-	def __str__(self):
-		return self.user.username
-
 
 
 
@@ -203,19 +207,12 @@ class MpesaCallBacks(BaseModel):
 
 
 class MpesaPayment(BaseModel):
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    description = models.TextField()
-    type = models.TextField()
-    reference = models.TextField()
-    first_name = models.CharField(max_length=100)
-    middle_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    phone_number = models.TextField()
-    organization_balance = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.PositiveIntegerField(default=0,null=True)
+    phone_number = models.CharField(max_length=12,null=True)
 
     class Meta:
         verbose_name = 'Mpesa Payment'
         verbose_name_plural = 'Mpesa Payments'
 
     def __str__(self):
-        return self.first_name
+        return self.phone_number
