@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Token,Profile,Job,Quote,FreelanceSkills,MerchantPromote,MpesaPayment
+from .models import Token,Profile,Job,Quote,FreelanceSkills,MerchantPromote
 from django.core.exceptions import ValidationError
 
 	
@@ -255,11 +255,6 @@ class ProfileCreationForm(forms.ModelForm):
 	class Meta:
 		model = Profile
 		fields = ('bio',)
-class MpesaPaymentForm(forms.ModelForm):
-
-	class Meta:
-		model = MpesaPayment
-		fields = ('phone_number','amount')
 
 
 		

@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
 from django.views.generic import UpdateView,TemplateView,CreateView,ListView
-from .forms import SignupForm,JobQuoteForm,ProfileCreationForm,RegisterProfileForm,PostJobForm,DigitalMediaForm,FreelanceSkillAdvertiseForm,MpesaPaymentForm
+from .forms import SignupForm,JobQuoteForm,ProfileCreationForm,RegisterProfileForm,PostJobForm,DigitalMediaForm,FreelanceSkillAdvertiseForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -95,18 +95,7 @@ def jobs(request):
     page = request.GET.get('page')
     available_jobs = paginator.get_page(page)
 
-    if request.method == 'POST':
-        form = MpesaPaymentForm(request.POST)
-        if form.is_valid():
-            payment = form.save(commit=False)
-            payment.user = current_user
-            payment.save()
-            return redirect('job-page')
-        
-    else:
-        form = MpesaPaymentForm()
-
-    return render(request, 'freelancer/jobs.html',{'available_jobs':available_jobs,"form":form})
+    return render(request, 'freelancer/jobs.html',{'available_jobs':available_jobs})
 
 @login_required
 def sort_price_highest(request):
@@ -725,7 +714,7 @@ def my_webhook_view(request):
     # Retrieve the request's body
     request_body = request.body.decode('utf-8')
     request_json = json.loads(request_body)
-    
+
     payment = RavePayment(
 
     amount=request_json['amount'],
