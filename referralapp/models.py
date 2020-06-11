@@ -185,8 +185,8 @@ class BaseModel(models.Model):
 
 class RavePayment(BaseModel):
 
-	amount = models.TextField(null=True)
-	phone_number = models.TextField(null=True)
+	amount = models.TextField()
+	phone_number = models.TextField()
 
 	def __str__(self):
 		return self.phone_number
