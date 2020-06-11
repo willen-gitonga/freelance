@@ -220,8 +220,8 @@ class MpesaPayment(BaseModel):
 class RavePayment(BaseModel):
 
 	amount = models.PositiveIntegerField(null=True)
-
 	phone_number = models.TextField()
-	
+
 	def __str__(self):
-        return self.phone_number
+		return self.phone_number
+
