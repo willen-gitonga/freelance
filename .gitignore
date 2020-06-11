@@ -3,4 +3,6 @@
 virtual/
 *.pyc
 pycache/
-migrations/
+referralapp/migrations/
+referralapp/pycache/
+referralproject/pycache/
