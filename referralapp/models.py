@@ -1,8 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from autoslug import AutoSlugField
 from datetime import timedelta
 from django.utils import timezone
 
@@ -20,7 +17,6 @@ class Job(models.Model):
 	]
 	user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 	job_title = models.CharField(max_length=60,blank=True)
-	slug = AutoSlugField(populate_from='job_title',null=True)
 	lower_limit = models.PositiveIntegerField(default=0,null=True)
 	upper_limit = models.PositiveIntegerField(default=0,null=True)
 	job_requirements = models.TextField(blank=True)
@@ -191,39 +187,7 @@ class RavePayment(BaseModel):
 	def __str__(self):
 		return self.phone_number
 
+	class Meta:
+		verbose_name_plural = "Rave Payments"
 
-# M-pesa Payment models
-
-class MpesaCalls(BaseModel):
-    ip_address = models.TextField()
-    caller = models.TextField()
-    conversation_id = models.TextField()
-    content = models.TextField()
-
-    class Meta:
-        verbose_name = 'Mpesa Call'
-        verbose_name_plural = 'Mpesa Calls'
-
-
-class MpesaCallBacks(BaseModel):
-    ip_address = models.TextField()
-    caller = models.TextField()
-    conversation_id = models.TextField()
-    content = models.TextField()
-
-    class Meta:
-        verbose_name = 'Mpesa Call Back'
-        verbose_name_plural = 'Mpesa Call Backs'
-
-
-class MpesaPayment(BaseModel):
-    amount = models.PositiveIntegerField(default=0,null=True)
-    phone_number = models.CharField(max_length=12,null=True)
-
-    class Meta:
-        verbose_name = 'Mpesa Payment'
-        verbose_name_plural = 'Mpesa Payments'
-
-    def __str__(self):
-        return self.phone_number
 
