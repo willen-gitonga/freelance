@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'referralproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':'digitalnomad',
+        'NAME':'freelanceproject',
         'USER':'kratostitan',
         'PASSWORD':'olympusfalxyed',
         'HOST':'localhost',
