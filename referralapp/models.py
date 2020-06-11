@@ -172,6 +172,14 @@ class Token(models.Model):
 		verbose_name_plural = "Eclid tokens"
 
 
+class RavePayment(models.Model):
+
+	amount = models.PositiveIntegerField(null=True)
+	phone_number = models.TextField()
+
+	def __str__(self):
+		return self.phone_number
+
 
 
 class BaseModel(models.Model):
@@ -216,12 +224,4 @@ class MpesaPayment(BaseModel):
 
     def __str__(self):
         return self.phone_number
-
-class RavePayment(BaseModel):
-
-	amount = models.PositiveIntegerField(null=True)
-	phone_number = models.TextField()
-
-	def __str__(self):
-		return self.phone_number
 
