@@ -12,6 +12,7 @@ admin.site.register(MerchantPromote)
 admin.site.register(MpesaPayment)
 admin.site.register(BusinessPromotePayment)
 admin.site.register(SkillPromotePayment)
+admin.site.register(RavePayment)
 
 
 

@@ -24,9 +24,14 @@ from datetime import timedelta
 from celery.schedules import crontab
 from celery.task import periodic_task
 from django.contrib import messages
+from django.views.decorators.http import require_http_methods
 # from .mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
 from django.views.decorators.csrf import csrf_exempt
 User = get_user_model()
+import os, hashlib, warnings, requests, json
+import base64
+from Crypto.Cipher import DES3
+from django.views import View
 
 
 
@@ -650,6 +655,113 @@ def pagenotfound(request):
 #     return JsonResponse(dict(context))
 
 
+def getKey(secret_key):
+    hashedseckey = hashlib.md5(secret_key.encode("utf-8")).hexdigest()
+    hashedseckeylast12 = hashedseckey[-12:]
+    seckeyadjusted = secret_key.replace('FLWSECK-', '')
+    seckeyadjustedfirst12 = seckeyadjusted[:12]
+    return seckeyadjustedfirst12 + hashedseckeylast12
+
+    """This is the encryption function that encrypts your payload by passing the text and your encryption Key."""
+
+def encryptData(key, plainText):
+    blockSize = 8
+    padDiff = blockSize - (len(plainText) % blockSize)
+    cipher = DES3.new(key, DES3.MODE_ECB)
+    plainText = "{}{}".format(plainText, "".join(chr(padDiff) * padDiff))
+    # cipher.encrypt - the C function that powers this doesn't accept plain string, rather it accepts byte strings, hence the need for the conversion below
+    test = plainText.encode('utf-8')
+    encrypted = base64.b64encode(cipher.encrypt(test)).decode("utf-8")
+    return encrypted
+
+
+def pay_via_card(request):
+    data = {
+    "PBFPubKey": "FLWPUBK_TEST-f41f833918daac351fa0a85cb98838ac-X",
+    "currency": "KES",
+    "country": "KE",
+    "amount": "200",
+    "phonenumber": "254700261031",
+    "email": "shawgitonga@gmail.com",
+    "txRef": "jw-222",
+    "payment_type": "mpesa",
+    "is_mpesa": "1",
+    "is_mpesa_lipa": 1
+    }
+
+    sec_key = 'FLWSECK_TEST-edaf6d57def71f454450e6bc0d3ebafe-X'
+
+        # hash the secret key with the get hashed key function
+    hashed_sec_key = getKey(sec_key)
+
+        # encrypt the hashed secret key and payment parameters with the encrypt function
+
+    encrypt_3DES_key = encryptData(hashed_sec_key, json.dumps(data))
+
+        # payment payload
+    payload = {
+        "PBFPubKey": "FLWPUBK_TEST-f41f833918daac351fa0a85cb98838ac-X",
+        "client": encrypt_3DES_key,
+        "alg": "3DES-24"
+    }
+
+        # card charge endpoint
+    endpoint = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge"
+
+        # set the content type to application/json
+    headers = {
+        'content-type': 'application/json',
+    }
+
+    response = requests.post(endpoint, headers=headers, data=json.dumps(payload))
+    # print(response.json())
+    messages.success(request,'Payment has been initiated.Kindly wait for confirmation.')
+    return redirect('token-low')
+
+@require_http_methods(["POST"])
+@csrf_exempt
+def my_webhook_view(request):
+
+    # Retrieve the request's body
+    request_json = request.body
+    payment = RavePayment(
+
+    amount=request_json['amount'],
+    phone_number=request_json['customer']['phone'],
+    
+  
+    )
+    payment.save()
+
+
+    # Do something with request_json
+
+    return HttpResponse(status=200)
+
+
+
+def callback_function(response):
+    data = {
+    "txref": "jw-222", #this is the reference from the payment button response after customer paid.
+    "SECKEY": 'FLWSECK_TEST-edaf6d57def71f454450e6bc0d3ebafe-X'#this is the secret key of the pay button generated
+    }
+    url = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/verify"
+
+    #make the http post request to our server with the parameters
+    thread = requests.post(url, headers={"Content-Type":"application/json"}, params=data,callback=callback_function)
+
+
+    if response.body['data']['status'] == 'successful':
+
+        if response.body['data']['chargecode']== '00':
+            
+            if response.body['data']['amount'] == 200:
+
+                print("Payment successful")
+
+
+   
+
 
 
 @login_required
@@ -696,7 +808,7 @@ def check_transaction(request):
         return redirect('profile-dashboard',request.user.username)
 
     except ObjectDoesNotExist:
-        messages.warning(request, 'Payment confirmation invalid.') 
+        messages.warning(request, 'Payment has been initiated.Kindly wait for confirmation.') 
         return redirect('token-purchase')
         
 
@@ -731,7 +843,7 @@ def post_job_transaction(request):
         return redirect('post-job')
 
     except ObjectDoesNotExist:
-        messages.warning(request, 'Payment confirmation invalid.') 
+        messages.warning(request, 'Payment has been initiated.Kindly wait for confirmation.') 
         return redirect('post-job-purchase')
 
 
@@ -766,7 +878,7 @@ def promote_business_transaction(request):
         return redirect('digital-media')
 
     except ObjectDoesNotExist:
-        messages.warning(request, 'Payment confirmation invalid.') 
+        messages.warning(request, 'Payment has been initiated.Kindly wait for confirmation.') 
         return redirect('digital-job-purchase')
 
 #Work on this function to redirect to the correct page after user renews business post
@@ -795,7 +907,7 @@ def renew_business_transaction(request,pk):
         valid_transaction.delete()
         return redirect('promoted-business-user',request.user.username)
     except ObjectDoesNotExist:
-        messages.warning(request, 'Payment confirmation invalid.') 
+        messages.warning(request, 'Payment has been initiated.Kindly wait for confirmation.') 
         return redirect('promoted-business-user',request.user.username)
        
 
@@ -830,7 +942,7 @@ def promote_skill_transaction(request):
         return redirect('freelance-skill-post')
 
     except ObjectDoesNotExist:
-        messages.warning(request, 'Payment confirmation invalid.') 
+        messages.warning(request, 'Payment has been initiated.Kindly wait for confirmation.') 
         return redirect('freelance-skill-purchase')
 
 @login_required
@@ -857,7 +969,7 @@ def renew_skill_transaction(request,pk):
         valid_transaction.delete()
         return redirect('promoted-skill-user',request.user.username)
     except ObjectDoesNotExist:
-        messages.warning(request, 'Payment confirmation invalid.') 
+        messages.warning(request, 'Payment has been initiated.Kindly wait for confirmation.') 
         return redirect('promoted-skill-user',request.user.username)
 
 
@@ -865,35 +977,6 @@ def renew_skill_transaction(request,pk):
 
 
 
-# def getAccessToken(request):
-#     consumer_key = 'cHnkwYIgBbrxlgBoneczmIJFXVm0oHky'
-#     consumer_secret = '2nHEyWSD4VjpNh2g'
-#     api_URL = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
-#     r = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
-#     mpesa_access_token = json.loads(r.text)
-#     validated_mpesa_access_token = mpesa_access_token['access_token']
-#     return HttpResponse(validated_mpesa_access_token)
-
-# def lipa_na_mpesa_online(request):
-
-#     access_token = MpesaAccessToken.validated_mpesa_access_token
-#     api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-#     headers = {"Authorization": "Bearer %s" % access_token}
-#     request = {
-#         "BusinessShortCode": LipanaMpesaPpassword.Business_short_code,
-#         "Password": LipanaMpesaPpassword.decode_password,
-#         "Timestamp": LipanaMpesaPpassword.lipa_time,
-#         "TransactionType": "CustomerPayBillOnline",
-#         "Amount": 10,
-#         "PartyA": 254743303681,  # replace with your phone number to get stk push
-#         "PartyB": LipanaMpesaPpassword.Business_short_code,
-#         "PhoneNumber": 254743303681,  # replace with your phone number to get stk push
-#         "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
-#         "AccountReference": "Henry",
-#         "TransactionDesc": "Testing stk push"
-#     }
-#     response = requests.post(api_url, json=request, headers=headers)
-#     return HttpResponse('success')
 
 
 
