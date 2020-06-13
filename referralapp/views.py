@@ -25,7 +25,6 @@ from celery.schedules import crontab
 from celery.task import periodic_task
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
-# from .mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
 from django.views.decorators.csrf import csrf_exempt
 User = get_user_model()
 import os, hashlib, warnings, requests, json
@@ -742,11 +741,9 @@ def callback_function(response):
     thread = requests.post(url, headers={"Content-Type":"application/json"}, params=data,callback=callback_function)
 
 
-    if response.body['data']['status'] == 'successful':
-
-        if response.body['data']['chargecode']== '00':
-            
-            if response.body['data']['amount'] == 200:
+    if response.body['data']['status'] == 'successful' and response.body['data']['chargecode']== '00':
+ 
+        if response.body['data']['amount'] == 200:
 
                 print("Payment successful")
 
@@ -769,7 +766,7 @@ def check_transaction(request):
         eclid_token = None
 
     try:
-        valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
+        valid_transaction = RavePayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
         if amount_transacted == 200 and eclid_token is None:
             token = Token(user=current_user,bid_token=1)
@@ -818,7 +815,7 @@ def post_job_transaction(request):
         job_to_post = None
 
     try:
-        valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
+        valid_transaction = RavePayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
         if amount_transacted == 1300 and job_to_post is None:
             posted_job = JobPayment(user=current_user,job_post_paid=True)
@@ -853,7 +850,7 @@ def promote_business_transaction(request):
         business_to_post = None
 
     try:
-        valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
+        valid_transaction = RavePayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
         if amount_transacted == 1000 and business_to_post is None:
             posted_business = BusinessPromotePayment(user=current_user,business_post_paid=True)
@@ -889,7 +886,7 @@ def renew_business_transaction(request,pk):
     except:
         business_to_renew = None
     try:
-        valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
+        valid_transaction = RavePayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
         if amount_transacted == 500 and business_to_renew is not None:
             business_to_renew.expiry_date = next_renewal
@@ -917,7 +914,7 @@ def promote_skill_transaction(request):
         skill_to_post = None
 
     try:
-        valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
+        valid_transaction = RavePayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
         if amount_transacted == 1000 and skill_to_post is None:
             posted_skill = SkillPromotePayment(user=current_user,skill_post_paid=True)
@@ -951,7 +948,7 @@ def renew_skill_transaction(request,pk):
     except:
         skill_to_renew = None
     try:
-        valid_transaction = MpesaPayment.objects.get(phone_number=user_phone_number)
+        valid_transaction = RavePayment.objects.get(phone_number=user_phone_number)
         amount_transacted = valid_transaction.amount
         if amount_transacted == 500 and skill_to_renew is not None:
             skill_to_renew.expiry_date = next_renewal

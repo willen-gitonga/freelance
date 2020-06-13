@@ -16,7 +16,7 @@
 <h4 style="text-align: center;">You have not promoted any businesses yet.</h4>
 <h5 style="text-align: center;">Promoted Businesses that are valid will appear here. <br> <br>
 
-  <a href="{% url 'digital-media'  %}" style="text-align: center;">Promote your business and build up customers.</a>
+  <a href="{% url 'digital-media'  %}" style="text-align: center;">Promote your business and build up your resources.</a>
 </h5>
 
 </div>
@@ -24,16 +24,19 @@
 <div class="container">
 <a href="{% url 'digital-media'  %}" class="btndis btn-xs btn-info float-right loginbtn3">Promote a business</a><br><br>
 </div>
-{% for business in all_business_user %}
-
 <div class="container">
+{% for business in all_business_user %}
+{% if forloop.counter0|divisibleby:3 %}
+<div class="row">
+  {%  endif %}
   <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
   <div class="card mb-3">
       <div class="card-body">
+        <img  src="{{business.business_product.url}}" class="img-fluid" style="width: 405px;height: 269px;">
           <div class="card-text">
-            <img  src="{{business.business_product.url}}" class="img-fluid">
+           
            <b><p>{{business.business_name}}</p></b>
-            {{business.business_description}}<br><br>
+            {{business.business_description}} lore<br><br>
            <strong class="text-secondary">Our charges: {{business.business_charge}} KES</strong> <br>
             <strong class="text-secondary float-right">Valid till {{business.expiry_date|date:'Y-m-d'}}  </strong>
            <a href="{{business.business_link}}" target="_blank">View more products.</a>
@@ -83,12 +86,9 @@
          
       </div>
     </div>
-    
-   
-  </div>
-
-  
+    {%  if forloop.counter|divisibleby:3 or forloop.last %}</div>  {%  endif %}
 {% endfor %}
+</div>
 
 {%endif%}
 <script>

@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Token,Profile,Job,Quote,FreelanceSkills,MerchantPromote
-from django.core.exceptions import ValidationError
+from .validators import validate_file_size
+
 
 	
 class SignupForm(UserCreationForm):
@@ -159,16 +160,9 @@ class DigitalMediaForm(forms.ModelForm):
 
 		self.fields['business_product'].label = 'Image of product your business sells'
 		self.fields['business_product'].required = True
-		self.fields['business_product'].help_text = 'Maximum image size 100KB.jpg,jpeg,png only'
-	
-	def clean_image(self):
-		business_product = self.cleaned_data.get("business_product",False)
-		if business_product:
-			if business_product._height > 375 or business_product._width > 500:
-				raise ValidationError("Image size is larger than what is allowed")
-			return business_product
-		else:
-			raise ValidationError("No image found")
+		self.fields['business_product'].help_text = 'Maximum image size 200KB.jpg,jpeg,png only'
+
+	business_product = forms.ImageField(validators=[validate_file_size])
 
 	class Meta:
 		model = MerchantPromote

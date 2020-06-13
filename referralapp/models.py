@@ -4,6 +4,7 @@ from datetime import timedelta
 from django.utils import timezone
 
 
+
 class Job(models.Model):
 	JOB_CATEGORIES = [
 		(1,'IT & Software Development'),
@@ -57,7 +58,7 @@ class MerchantPromote(models.Model):
 		return self.business_name
 
 	class Meta:
-		verbose_name_plural = "Advertised Merchants"
+		verbose_name_plural = "Advertised Businesses"
 
 class FreelanceSkills(models.Model):
 	FREELANCE_SKILLS_CHOICES = [

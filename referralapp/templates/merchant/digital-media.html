@@ -57,8 +57,7 @@
 <form  method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form%}
-  
-  
+    
 {%if post_business is None or post_business.business_post_paid == False%}
 <a href="#" class="btndis btn btn-sm disabled" id="disbutton"> Promote business <i class="fa fa-ban"></i></a>
 {%endif%}
