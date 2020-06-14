@@ -717,7 +717,6 @@ def my_webhook_view(request):
         payment = RavePayment(
 
         amount=request_json['amount'],
-        phone_number=request_json['customer']['phone'],
         
     
         )
