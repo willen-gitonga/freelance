@@ -711,8 +711,8 @@ def pay_via_card(request):
 def my_webhook_view(request):
 
     # Retrieve the request's body
-    request_body = request.body
-    request_json = json.loads(request_body)
+    request_json = request.body
+    
 
     payment = RavePayment(
 
