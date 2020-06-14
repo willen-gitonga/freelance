@@ -665,19 +665,19 @@ def encryptData(key, plainText):
 
 def pay_via_card(request):
     data = {
-    "PBFPubKey": "FLWPUBK_TEST-f41f833918daac351fa0a85cb98838ac-X",
+    "PBFPubKey": "FLWPUBK-598d91106bd24476ed494f86531cbeb0-X",
     "currency": "KES",
     "country": "KE",
-    "amount": "200",
-    "phonenumber": "254700261031",
+    "amount": "1",
+    "phonenumber": "254706274750",
     "email": "shawgitonga@gmail.com",
-    "txRef": "jw-222",
+    "txRef": "rj-222",
     "payment_type": "mpesa",
     "is_mpesa": "1",
     "is_mpesa_lipa": 1
     }
 
-    sec_key = 'FLWSECK_TEST-edaf6d57def71f454450e6bc0d3ebafe-X'
+    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -688,13 +688,13 @@ def pay_via_card(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": "FLWPUBK_TEST-f41f833918daac351fa0a85cb98838ac-X",
+        "PBFPubKey": "FLWPUBK-598d91106bd24476ed494f86531cbeb0-X",
         "client": encrypt_3DES_key,
-        "alg": "3DES-24"
+        "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge"
+    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
 
         # set the content type to application/json
     headers = {
@@ -702,7 +702,7 @@ def pay_via_card(request):
     }
 
     response = requests.post(endpoint, headers=headers, data=json.dumps(payload))
-    # print(response.json())
+    print(response.json())
     messages.success(request,'Payment has been initiated.Kindly wait for confirmation.')
     return redirect('token-low')
 
@@ -711,7 +711,7 @@ def pay_via_card(request):
 def my_webhook_view(request):
 
     # Retrieve the request's body
-    request_body = request.body.decode('utf-8')
+    request_body = request.body
     request_json = json.loads(request_body)
 
     payment = RavePayment(
@@ -735,7 +735,7 @@ def callback_function(response):
     "txref": "jw-222", #this is the reference from the payment button response after customer paid.
     "SECKEY": 'FLWSECK_TEST-edaf6d57def71f454450e6bc0d3ebafe-X'#this is the secret key of the pay button generated
     }
-    url = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/verify"
+    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/verify"
 
     #make the http post request to our server with the parameters
     thread = requests.post(url, headers={"Content-Type":"application/json"}, params=data,callback=callback_function)
