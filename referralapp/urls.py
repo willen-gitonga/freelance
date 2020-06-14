@@ -87,7 +87,7 @@ urlpatterns = [
     path('validate/transact',promote_business_transaction,name='promote-business-transaction'),
 
     path('rave/',pay_via_card,name='rave-pay'),
-    path('webhook/',my_webhook_view,name='webhook'),
+    path('api/webhook',my_webhook_view,name='webhook'),
 
 ]
 if settings.DEBUG:

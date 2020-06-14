@@ -713,20 +713,19 @@ def my_webhook_view(request):
     # Retrieve the request's body
     request_json = request.body
 
-    if request_json['verif-hash'] == 'jZdygbt4LnvNYsvwXqjsEZZT2ZkS0fjp0vB6qmlOHRCrIfnQkz':
-        payment = RavePayment(
+    # if request_json['verif-hash'] == 'jZdygbt4LnvNYsvwXqjsEZZT2ZkS0fjp0vB6qmlOHRCrIfnQkz':
+    #     payment = RavePayment(
 
-        amount=request_json['amount'],
+    #     amount=request_json['amount'],
         
     
-        )
-        payment.save()
-        return redirect('token-high')
-
-
+    #     )
+    #     payment.save()
+   
     # Do something with request_json
 
     return HttpResponse(status=200)
+    return redirect('token-high')
 
 
 
