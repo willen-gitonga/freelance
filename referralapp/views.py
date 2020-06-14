@@ -665,7 +665,7 @@ def encryptData(key, plainText):
 
 def pay_via_card(request):
     data = {
-    "PBFPubKey": "FLWPUBK-598d91106bd24476ed494f86531cbeb0-X",
+    "PBFPubKey": "FLWPUBK_TEST-93769090b586738358418f96ac0f5190-X",
     "currency": "KES",
     "country": "KE",
     "amount": "1",
@@ -677,7 +677,7 @@ def pay_via_card(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
+    sec_key = 'FLWSECK_TEST-cb7dcd199d72f7c956ebff6026b8b662-X'
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -688,7 +688,7 @@ def pay_via_card(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": "FLWPUBK-598d91106bd24476ed494f86531cbeb0-X",
+        "PBFPubKey": "FLWPUBK_TEST-93769090b586738358418f96ac0f5190-X",
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
