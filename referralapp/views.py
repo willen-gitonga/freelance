@@ -694,7 +694,7 @@ def pay_via_card(request):
     }
 
         # card charge endpoint
-    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
+    endpoint = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/charge"
 
         # set the content type to application/json
     headers = {
@@ -706,7 +706,7 @@ def pay_via_card(request):
     messages.success(request,'Payment has been initiated.Kindly wait for confirmation.')
     return redirect('token-low')
 
-@require_http_methods(["POST"])
+@require_http_methods(["GET","POST"])
 @csrf_exempt
 def my_webhook_view(request):
 
@@ -732,10 +732,10 @@ def my_webhook_view(request):
 
 def callback_function(response):
     data = {
-    "txref": "jw-222", #this is the reference from the payment button response after customer paid.
+    "txref": "rj-222", #this is the reference from the payment button response after customer paid.
     "SECKEY": 'FLWSECK_TEST-edaf6d57def71f454450e6bc0d3ebafe-X'#this is the secret key of the pay button generated
     }
-    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/verify"
+    url = "https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/verify"
 
     #make the http post request to our server with the parameters
     thread = requests.post(url, headers={"Content-Type":"application/json"}, params=data,callback=callback_function)
