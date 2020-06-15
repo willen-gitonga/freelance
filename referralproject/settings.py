@@ -24,10 +24,8 @@ SECRET_KEY = '2ig)z%6dk=4tq0c7z$&nh+66v#%7*$#2av^m2bc1kie=6kdty&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-# DEBUG = False
 
-# ALLOWED_HOSTS = ['eclidworkers.com']
-ALLOWED_HOSTS = ['1b5d62127cea.ngrok.io','127.0.0.1', 'localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -83,21 +81,13 @@ WSGI_APPLICATION = 'referralproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':'referralapp',
-        'USER':'willen',
-        'PASSWORD':'phyc@#c4d',
+        
     }
 }
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME':'digitalnorm',
-#         'USER':'kratostitan',
-#         'PASSWORD':'olympusfalxyed',
-#         'HOST':'localhost',
-#         'PORT':''
+#         
 #     }
 # }
 
@@ -160,12 +150,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Comment this out
 
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_HOST_PASSWORD = 'testenv#?578' 
-# EMAIL_HOST_USER ='test.txg@gmail.com' 
-# EMAIL_PORT = 587
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
