@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import (
-    pay_via_card,my_webhook_view,
+    pay_via_card,verify_rave_transaction,
     HomePageView,profile_dashboard,jobs,bid_job,
     signup,
     pagenotfound,sort_price_highest,messaging_dashboard,
@@ -87,7 +87,8 @@ urlpatterns = [
     path('validate/transact',promote_business_transaction,name='promote-business-transaction'),
 
     path('rave/',pay_via_card,name='rave-pay'),
-    path('api/webhook',my_webhook_view,name='webhook'),
+    path('verify/rave',verify_rave_transaction,name='verify-rave'),
+
 
 ]
 if settings.DEBUG:

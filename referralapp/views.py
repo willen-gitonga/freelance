@@ -26,11 +26,13 @@ from celery.task import periodic_task
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-User = get_user_model()
 import os, hashlib, warnings, requests, json
 import base64
 from Crypto.Cipher import DES3
 from django.views import View
+import random
+import string
+User = get_user_model()
 
 
 
@@ -643,6 +645,12 @@ def pagenotfound(request):
 #     return JsonResponse(dict(context))
 
 
+def randomString(stringLength=8):
+    lettersAndDigits = string.ascii_letters + string.digits
+    return ''.join((random.choice(lettersAndDigits) for i in range(stringLength)))
+    
+
+
 def getKey(secret_key):
     hashedseckey = hashlib.md5(secret_key.encode("utf-8")).hexdigest()
     hashedseckeylast12 = hashedseckey[-12:]
@@ -663,21 +671,30 @@ def encryptData(key, plainText):
     return encrypted
 
 
+
 def pay_via_card(request):
+    random_string = randomString(stringLength=8)
+    try:
+        current_profile = Profile.objects.get(user=request.user)
+        current_profile.prof_ref = random_string
+        current_profile.save()
+    except:
+        current_profile = None
+    
     data = {
-    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+    "PBFPubKey": '',
     "currency": "KES",
     "country": "KE",
     "amount": "1",
-    "phonenumber": "254706274750",
-    "email": "shawgitonga@gmail.com",
-    "txRef": "rj-222",
+    "phonenumber": current_profile.phonenumber,
+    "email": request.user.email,
+    "txRef": current_profile.prof_ref,
     "payment_type": "mpesa",
     "is_mpesa": "1",
     "is_mpesa_lipa": 1
     }
 
-    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
+    sec_key = ''
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -688,13 +705,13 @@ def pay_via_card(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+        "PBFPubKey": '',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
+    endpoint = ""
 
         # set the content type to application/json
     headers = {
@@ -702,54 +719,48 @@ def pay_via_card(request):
     }
 
     response = requests.post(endpoint, headers=headers, data=json.dumps(payload))
-    print(response.json())
+    # print(response.json())
     messages.success(request,'Payment has been initiated.Kindly wait for confirmation.')
     return redirect('token-low')
 
-@require_POST
-@csrf_exempt
-def my_webhook_view(request):
 
-    # Retrieve the request's body
-    request_json = request.body
-
-    # if request_json['verif-hash'] == 'jZdygbt4LnvNYsvwXqjsEZZT2ZkS0fjp0vB6qmlOHRCrIfnQkz':
-    #     payment = RavePayment(
-
-    #     amount=request_json['amount'],
-        
-    
-    #     )
-    #     payment.save()
-   
-    # Do something with request_json
-
-    return HttpResponse(status=200)
-    return redirect('token-high')
-
-
-
-def callback_function(response):
+def verify_rave_transaction(request):
+    try:
+        current_profile = Profile.objects.get(user=request.user)
+    except:
+        current_profile = None
     data = {
-    "txref": "rj-222", #this is the reference from the payment button response after customer paid.
-    "SECKEY": 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'#this is the secret key of the pay button generated
+    "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
+    "SECKEY": "",
     }
-    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/verify"
+
+    url = ""
 
     #make the http post request to our server with the parameters
-    thread = requests.post(url, headers={"Content-Type":"application/json"}, params=data,callback=callback_function)
+    
+    thread = requests.post(url, headers={"Content-Type":"application/json"}, data=json.dumps(data))
+    # print(thread.json())
+    response = thread.json()
+    if response['data']['txref'] == current_profile.prof_ref and response['data']['status'] != 'failed':
+        return redirect('token-high')
+    else:
+        return redirect('job-page')
+
+    
 
 
-    if response.body['data']['status'] == 'successful' and response.body['data']['chargecode']== '00':
+# def callback_function(response):
+
+#     if response.body['data']['status'] == 'successful' and response.body['data']['chargecode']== '00':
  
-        if response.body['data']['amount'] == 200:
+#         if response.body['data']['amount'] == 200:
+#             return redirect('token-high')
+#         else:
+#             return redirect('job-page')
 
-                print("Payment successful")
-
+                
 
    
-
-
 
 @login_required
 def check_transaction(request):
