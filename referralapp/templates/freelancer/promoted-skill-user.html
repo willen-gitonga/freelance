@@ -84,34 +84,9 @@
 
         
 
-      <a href="#"  data-toggle="collapse" data-target="#demo" class="btndis btn-xs btn-info float-right loginbtn3">Renew Validity</a>
+      <a href="{% url 'rave-skill-renewal' skill.id %}" class="btndis btn-xs btn-info float-right loginbtn3">Renew Validity</a>
         <br><br><br><br>
-          <div id="demo" class="collapse">
-        <div class="card">
-           
-           <div class="card-body" style="color: black;">
-            <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-              <strong>!</strong> Kindly use the phone number filled in your profile to make this payment.
-              </div>
-                <ol>
-           <li> Go to M-PESA on your phone</li>
-           <li> Select Buy Goods option</li>
-            <li>Enter Buy Goods till no 5214515 </li>
-            <li>Enter the Amount <strong> {{freelance_skills_renew_amount}} </strong></li>
-            <li>Enter your M-PESA PIN and Send</li>
-            <li>You will receive your confirmation SMS from M-PESA</li>
-            <li>Click to confirm the payment.</li>
-                </ol> 
-                <br>
-                <a href="{% url 'check-skill-renewal-transaction' skill.id %}" class="btn btn-info btn-sm" style="background-color: #13B5FA;">Confirm Payment</a>
 
-      
-    </div>
-    </div>
-  </div>
-
-           
           </div>
          
          

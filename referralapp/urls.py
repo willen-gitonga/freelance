@@ -3,13 +3,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import (
-    pay_via_card,verify_rave_transaction,
+    pay_low_token,pay_medium_token,pay_high_token,verify_token_transaction,
+    pay_business_promote,verify_business_transaction,pay_business_renewal,confirm_business_renewal,
+    verify_business_renewal,
+    pay_post_job,verify_job_transaction,
+    pay_skill_promote,pay_skill_renewal,confirm_skill_renewal,verify_skill_renewal,verify_skill_transaction,
     HomePageView,profile_dashboard,jobs,bid_job,
     signup,
-    pagenotfound,sort_price_highest,messaging_dashboard,
-    check_transaction,token_purchase,low_purchase,medium_purchase,high_purchase,
+    pagenotfound,sort_price_highest,
+    token_purchase,confirm_purchase,
     post_job,post_job_purchase,work_place,post_digital_job,digital_job_purchase,
-    post_job_transaction,promote_business_transaction,
     received_quotes,posted_job_user,sent_quotes,
 
     #Sorted jobs for users to view
@@ -17,9 +20,9 @@ from .views import (
     sort_writing_jobs,sort_customer_service_jobs,sort_referral_jobs,
     sort_data_entry_jobs,sort_other_unspecified_jobs,
    
-    all_promoted_business,promoted_business_user,renew_business_transaction,
+    all_promoted_business,promoted_business_user,
 
-    all_promoted_skills,freelance_skills_post,promoted_skill_user, freelance_skill_purchase,renew_skill_transaction,promote_skill_transaction,
+    all_promoted_skills,freelance_skills_post,promoted_skill_user, freelance_skill_purchase,
 
     eclid_digital_nomad,terms_conditions
 
@@ -48,7 +51,6 @@ urlpatterns = [
     path('promoted/businesses',all_promoted_business,name='promoted-businesses'),
  
     path('posted/business/<slug>',promoted_business_user,name='promoted-business-user'),
-    path('subscription/45<int:pk>3/business/transaction',renew_business_transaction,name='renew-business-transaction'), #This validates the transaction
 
    
 
@@ -57,9 +59,7 @@ urlpatterns = [
     path('posted/skills/<slug>',promoted_skill_user,name='promoted-skill-user'),
     path('skill/post',freelance_skills_post,name='freelance-skill-post'),
     path('promote/skill/purchase',freelance_skill_purchase,name='freelance-skill-purchase'),
-    path('renew/skill/transaction/17<int:pk>8',renew_skill_transaction,name='check-skill-renewal-transaction'),
     path('promoted/skills',all_promoted_skills,name='promoted-skills'),
-    path('promote/skill/transaction',promote_skill_transaction,name='check-skill-post-transaction'),
     #url for social media adverts/jobs and promote businesses
     path('myworkplace/',work_place,name='work-place'),
     path('promote/post',post_digital_job,name='digital-media'),
@@ -74,22 +74,37 @@ urlpatterns = [
     path('quotes/sent',sent_quotes,name='sent-quotes'),
     #url for buying tokens for freelancers
     path('buy/tokens',token_purchase,name='token-purchase'),
-    path('buy/1',low_purchase,name='token-low'),
-    path('buy/2',medium_purchase,name='token-medium'),
-    path('buy/3',high_purchase,name='token-high'),
+    path('confirm/payment',confirm_purchase,name='token-low'),
+    
 
     path('404pagenotfound/',pagenotfound,name='404page'),
     path('terms&conditions',terms_conditions,name='terms-conditions'),
 
-    #url for checking the three transactions have occured succcesfully or are invalid
-    path('validate/',check_transaction,name='validate-transaction'),
-    path('validate/transaction',post_job_transaction,name='post-job-transaction'),
-    path('validate/transact',promote_business_transaction,name='promote-business-transaction'),
+#These are the good payments
+    path('rave/',pay_low_token,name='rave-low-pay'),
+    path('rave/medium',pay_medium_token,name='rave-medium-pay'),
+    path('rave/high',pay_high_token,name='rave-high-pay'),
+    path('verify/rave',verify_token_transaction,name='verify-rave'),
 
-    path('rave/',pay_via_card,name='rave-pay'),
-    path('verify/rave',verify_rave_transaction,name='verify-rave'),
+# These are the transaction for the  jobs posted by client
+    
+    path('job/payment',pay_post_job,name='pay-post-job'),
+    path('job/verify/payment',verify_job_transaction,name='verify-job-transaction'),
 
+
+    path('skill/payment',pay_skill_promote,name='pay-skill-promote'),
+    path('verify/skill/',verify_skill_transaction,name='verify-skill-transaction'),
+    path('rave/skill/384<int:pk>/renewal',pay_skill_renewal,name='rave-skill-renewal'),
+    path('skill/38<int:pk>43/renewal',verify_skill_renewal,name='verify-skill-renewal'),
+    path('skill/38<int:pk>46/renew',confirm_skill_renewal,name='confirm-skill-renewal'),
+
+    path('rave/business',pay_business_promote,name='rave-business-pay'),
+    path('verify/business',verify_business_transaction,name='rave-business-verify'),
+    path('rave/business/45<int:pk>3/renewal',pay_business_renewal,name='rave-business-renewal'),
+    path('verify/business/45<int:pk>3/renewal',verify_business_renewal,name='verify-business-renewal'),
+    path('business/45<int:pk>3/renew',confirm_business_renewal,name='confirm-business-renewal'),
 
 ]
+
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

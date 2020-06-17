@@ -15,14 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+import referralapp
+
 
 
 urlpatterns = [
-    path('dufeingergrenfisch45/', admin.site.urls),
-    # path('admin/', admin.site.urls),
+  
+    path('admin/', admin.site.urls),
     path('',include('referralapp.urls')),
-    path('accounts/',include('django.contrib.auth.urls')),
-
-    
+  
 ]
+handler500 = referralapp.views.handler500
 

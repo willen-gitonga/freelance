@@ -23,6 +23,17 @@
 {%else%}
 <div class="container">
 <a href="{% url 'digital-media'  %}" class="btndis btn-xs btn-info float-right loginbtn3">Promote a business</a><br><br>
+{% if messages %}
+    
+             <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <ul class="messages">
+      {% for message in messages %}
+        <p class="{{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </ul>
+</div>
+  {% endif %}
 </div>
 <div class="container">
 {% for business in all_business_user %}
@@ -40,46 +51,17 @@
            <strong class="text-secondary">Our charges: {{business.business_charge}} KES</strong> <br>
             <strong class="text-secondary float-right">Valid till {{business.expiry_date|date:'Y-m-d'}}  </strong>
            <a href="{{business.business_link}}" target="_blank">View more products.</a>
-              {% if messages %}
-            <ul class="messages">
-              {% for message in messages %}
-                <p class="{{ message.tags }} text-success">{{ message }}</p>
-              {% endfor %}
-            </ul>
-          {% endif %}
-          <a href="#" id="formButton" class="btndis btn-xs btn-info float-right loginbtn3">Renew Validity</a>
+             
+         
+          <a href="{% url 'rave-business-renewal' business.id %}" class="btndis btn-xs btn-info float-right loginbtn3">Renew Validity</a>
+       
           </div>
        
 
     
      
       <br><br><br><br>
-      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-      <div class="card" id="form1" style="display: none;">
-         
-         <div class="card-body" style="color: black;">
-          <div class="alert alert-danger alert-dismissible">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>!</strong> Kindly use the phone number filled in your profile to make this payment.
-            </div>
-              <ol>
-         <li> Go to M-PESA on your phone</li>
-         <li> Select Buy Goods option</li>
-          <li>Enter Buy Goods till no 5214515 </li>
-          <li>Enter the Amount <strong> {{ business_renew_amount}} </strong></li>
-          <li>Enter your M-PESA PIN and Send</li>
-          <li>You will receive your confirmation SMS from M-PESA</li>
-          <li>Click to confirm the payment.</li>
-              </ol> 
-              <br>
-              <a href="{% url 'renew-business-transaction' business.id %}" class="btn btn-info btn-sm" style="background-color: #13B5FA;">Confirm Payment</a>
-             
-
     
-  </div>
-  
-  </div>
-      </div>
            
           </div>
          
@@ -91,12 +73,5 @@
 </div>
 
 {%endif%}
-<script>
- 
-  $("#formButton").click(function(){
-         $("#form1").toggle();
-     });
-
-  </script>
 
 {% endblock %}

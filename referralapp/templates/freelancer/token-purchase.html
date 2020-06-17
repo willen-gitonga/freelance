@@ -8,13 +8,17 @@
     </head>
     <br>
 <div class="container">
-    {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <p class="{{ message.tags }} text-success">{{ message }}</p>
-      {% endfor %}
-    </ul>
-  {% endif %}
+  {% if messages %}
+    
+  <div class="alert alert-success alert-dismissible">
+     <button type="button" class="close" data-dismiss="alert">&times;</button>
+<ul class="messages">
+{% for message in messages %}
+<p class="{{ message.tags }}">{{ message }}</p>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
  <b><u>   <h5>Choose a Pricing:</h5></u></b>
  <br>
     <div class="row">
@@ -30,7 +34,7 @@
        
     </div>
     <div class="card-footer">
-        <a href="{% url 'token-low'  %}" class="btn btn-info btn-sm float-right" style="background-color: #13B5FA;">Buy Eclid token</a>
+        <a href="{% url 'rave-low-pay'  %}" class="btn btn-info btn-sm float-right" style="background-color: #13B5FA;">Buy Eclid token</a>
     </div>
   </div>
   <div class="card mb-3">
@@ -42,7 +46,7 @@
          **Total charge 885 KES(850 KES + Service fee)
      </div>
      <div class="card-footer">
-         <a href="{% url 'token-medium'  %}" class="btn btn-info btn-sm float-right" style="background-color: #13B5FA;">Buy 12 Eclid tokens</a>
+         <a href="{% url 'rave-medium-pay'  %}" class="btn btn-info btn-sm float-right" style="background-color: #13B5FA;">Buy 12 Eclid tokens</a>
      </div>
    </div>
    <div class="card mb-3">
@@ -54,7 +58,7 @@
         **Total charge 1545 KES(1500 KES + Service fee)
      </div>
      <div class="card-footer">
-         <a href="{% url 'token-high'  %}" class="btn btn-info btn-sm float-right" style="background-color: #13B5FA;">Buy 25 Eclid tokens</a>
+         <a href="{% url 'rave-high-pay'  %}" class="btn btn-info btn-sm float-right" style="background-color: #13B5FA;">Buy 25 Eclid tokens</a>
      </div>
    </div>
 </div>

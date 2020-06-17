@@ -37,7 +37,7 @@ class Job(models.Model):
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
 	phonenumber = models.CharField(verbose_name="phone_number", max_length=12,null=True)
-	prof_ref = models.CharField(max_length=10,null=True)
+	prof_ref = models.CharField(max_length=10,null=True,default='indigo')
 	bio = models.TextField(blank=True)
 
 

@@ -50,7 +50,7 @@
        
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
             <div class="card">
-                <div class="card-header">User Dashboard
+                <div class="card-header">Freelancer Dashboard
                   <a href="{% url 'sent-quotes'  %}" class="float-right">Offers Sent</a>
 
                 </div>
@@ -70,11 +70,20 @@
                     <button type="button" class="btn btn-light btn-block" id="formButton" style="border-color:grey ;">Edit Profile</button>
                     {%endif%}
                     <br>
-                    <form  method="POST" enctype="multipart/form-data" id="form1" style="display: none;">
+                    <section id="form1" style="display: none;">
+                    <form  method="POST" enctype="multipart/form-data" >
+                      {% csrf_token %}
+                      {% bootstrap_form prof_form%}
+                      <button class="btndis2 btn btn-sm" type="submit"> Change phone number</button>
+          
+              </form>
+              <br>
+                    <form  method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% bootstrap_form form%}
-                        <button class="btndis2 btn btn-sm" type="submit"> Save</button>
+                        <button class="btndis2 btn btn-sm" type="submit"> Save bio</button>
                 </form>
+              </section>
                 </div>
               </div>
               <br>
