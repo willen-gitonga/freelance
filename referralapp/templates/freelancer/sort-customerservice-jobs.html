@@ -19,7 +19,7 @@
   {%else%}
   <div class="alert alert-success alert-dismissible">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <strong>!</strong> Business & Customer Service jobs displayed here have not been completed yet and the project owners are still accepting offers.
+  <strong>!</strong> Business & Customer Service jobs displayed here have not been completed yet and the project owners are still open.
   </div>
 
 {% for job in sorted_jobs %}
@@ -31,7 +31,7 @@
            
         <b> <p class="card-text">{{job.job_title}}</p> </b>
        
-         <b>  <p class="card-text float-right text-secondary">{{job.lower_limit}}-{{job.upper_limit}} KES</p></b>
+         <b>  <p class="card-text float-right text-secondary">{{job.lower_limit}}.0 - {{job.upper_limit}}.0 KES</p></b>
  
         
          {% if job.job_category == 1  %}
@@ -58,7 +58,7 @@
   {% if job.job_category == 8  %}
   <b><p class="card-text text-secondary">Other Category</p></b>
  {% endif %}
-      <a href="{% url 'bid-job' job.id%}"  class="btndis btn-xs btn-info float-right loginbtn3">Make an offer</a>
+      <a href="{% url 'bid-job' job.id%}"  class="btndis btn-xs btn-info float-right loginbtn3">View Job</a>
            
           </div>
          

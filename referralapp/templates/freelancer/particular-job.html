@@ -33,11 +33,15 @@
 </div>
 </div>
 <br>
+<div class="card">
+    <div class="container">
+        <br>
+     <b>   <h4>{{job.job_title}}</h4></b>
 {% if offers_count > 0 %}
   <b><p class="text-secondary"><i class="fa fa-cog fa-spin" style="font-size:18px"></i> {{offers_count}} offers</p></b>
   {%endif%}
   <b> <p style="margin-top: 18px;"> <i class="fa fa-chain"></i> What is required? <br>
-   
+  
     <a  style="text-align: center;" href="{{job.job_link}}" target="_blank">{{job.job_link}}</a> </p></b>
   
   <p>{{job.job_requirements|linebreaks}}</p>
@@ -53,8 +57,10 @@
     {% if offers_count == 15%}
    <b> <p>Maximum offers received.</p></b>
     {%endif%}
-    
 </form>
+</div>
+<br>
+</div>
 </div>
 
 {% endblock %}

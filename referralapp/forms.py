@@ -68,7 +68,7 @@ class JobQuoteForm(forms.ModelForm):
 		super(JobQuoteForm, self).__init__(*args, **kwargs)
 		self.fields['quote'].widget.attrs = {
 			'style':'height:240px;',
-			'placeholder': 'Let the employer know you are the best person for the job.Show that you can complete the task in adequate time.Also include your job rate amount.',
+			'placeholder': 'Let the employer know you are the best person for the job.Show that you can complete the job in adequate time and you understood the requirements of the job.Also include your job rate amount.',
 
 		}
 		self.fields['quote'].label = 'My Offer:'
