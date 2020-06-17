@@ -530,7 +530,7 @@ def pay_low_token(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+    "PBFPubKey": '',
     "currency": "KES",
     "country": "KE",
     "amount": "235",
@@ -542,7 +542,7 @@ def pay_low_token(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
+    sec_key = ''
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -553,13 +553,13 @@ def pay_low_token(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+        "PBFPubKey": '',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
+    endpoint = ""
 
         # set the content type to application/json
     headers = {
@@ -581,7 +581,7 @@ def pay_medium_token(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+    "PBFPubKey": '',
     "currency": "KES",
     "country": "KE",
     "amount": "885",
@@ -593,7 +593,7 @@ def pay_medium_token(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
+    sec_key = ''
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -604,13 +604,13 @@ def pay_medium_token(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+        "PBFPubKey": '',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
+    endpoint = ""
 
         # set the content type to application/json
     headers = {
@@ -632,7 +632,7 @@ def pay_high_token(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+    "PBFPubKey": '',
     "currency": "KES",
     "country": "KE",
     "amount": "1545",
@@ -644,7 +644,7 @@ def pay_high_token(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
+    sec_key = ''
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -655,13 +655,13 @@ def pay_high_token(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+        "PBFPubKey": '',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
+    endpoint = ""
 
         # set the content type to application/json
     headers = {
@@ -682,7 +682,7 @@ def pay_post_job(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+    "PBFPubKey": '',
     "currency": "KES",
     "country": "KE",
     "amount": "1345",
@@ -694,7 +694,7 @@ def pay_post_job(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
+    sec_key = ''
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -705,13 +705,13 @@ def pay_post_job(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+        "PBFPubKey": '',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
+    endpoint = ""
 
         # set the content type to application/json
     headers = {
@@ -733,7 +733,7 @@ def pay_business_promote(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+    "PBFPubKey": '',
     "currency": "KES",
     "country": "KE",
     "amount": "1035",
@@ -745,7 +745,7 @@ def pay_business_promote(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
+    sec_key = ''
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -756,13 +756,13 @@ def pay_business_promote(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+        "PBFPubKey": '',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
+    endpoint = ""
 
         # set the content type to application/json
     headers = {
@@ -788,7 +788,7 @@ def pay_business_renewal(request,pk):
         business_to_renew = None
     
     data = {
-    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+    "PBFPubKey": '',
     "currency": "KES",
     "country": "KE",
     "amount": "535",
@@ -800,7 +800,7 @@ def pay_business_renewal(request,pk):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
+    sec_key = ''
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -811,13 +811,13 @@ def pay_business_renewal(request,pk):
 
         # payment payload
     payload = {
-        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+        "PBFPubKey": '',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
+    endpoint = ""
 
         # set the content type to application/json
     headers = {
@@ -839,7 +839,7 @@ def pay_skill_promote(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+    "PBFPubKey": '',
     "currency": "KES",
     "country": "KE",
     "amount": "1035",
@@ -851,7 +851,7 @@ def pay_skill_promote(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
+    sec_key = ''
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -862,13 +862,13 @@ def pay_skill_promote(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+        "PBFPubKey": '',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
+    endpoint = ""
 
         # set the content type to application/json
     headers = {
@@ -895,7 +895,7 @@ def pay_skill_renewal(request,pk):
         skill_to_renew = None
     
     data = {
-    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+    "PBFPubKey": '',
     "currency": "KES",
     "country": "KE",
     "amount": "535",
@@ -907,7 +907,7 @@ def pay_skill_renewal(request,pk):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
+    sec_key = ''
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -918,13 +918,13 @@ def pay_skill_renewal(request,pk):
 
         # payment payload
     payload = {
-        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
+        "PBFPubKey": '',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
+    endpoint = ""
 
         # set the content type to application/json
     headers = {
@@ -948,10 +948,10 @@ def verify_token_transaction(request):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
+    "SECKEY": "",
     }
 
-    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
+    url = ""
 
     #make the http post request to our server with the parameters
     
@@ -1016,10 +1016,10 @@ def verify_job_transaction(request):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
+    "SECKEY": "",
     }
 
-    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
+    url = ""
 
     #make the http post request to our server with the parameters
     
@@ -1065,10 +1065,10 @@ def verify_business_transaction(request):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
+    "SECKEY": "",
     }
 
-    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
+    url = ""
 
     #make the http post request to our server with the parameters
     
@@ -1112,10 +1112,10 @@ def verify_business_renewal(request,pk):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
+    "SECKEY": "",
     }
 
-    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
+    url = ""
 
     #make the http post request to our server with the parameters
     
@@ -1158,10 +1158,10 @@ def verify_skill_transaction(request):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
+    "SECKEY": "",
     }
 
-    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
+    url = ""
 
     #make the http post request to our server with the parameters
     
@@ -1207,10 +1207,10 @@ def verify_skill_renewal(request,pk):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
+    "SECKEY": "",
     }
 
-    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
+    url = ""
 
     #make the http post request to our server with the parameters
     
