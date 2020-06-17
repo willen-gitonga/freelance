@@ -20,13 +20,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = '2ig)z%6dk=4tq0c7z$&nh+66v#%7*$#2av^m2bc1kie=6kdty&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False
 
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['eclidworkers.com']
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -80,17 +81,25 @@ WSGI_APPLICATION = 'referralproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#        
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME':'referralapp',
+#         'USER':'willen',
+#         'PASSWORD':'phyc@#c4d',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME':'digitalnorm',
+        'USER':'kratostitan',
+        'PASSWORD':'olympusfalxyed',
+        'HOST':'localhost',
+        'PORT':''
+    }
+}
 
 
 
@@ -132,24 +141,21 @@ LOGOUT_REDIRECT_URL = 'job-page'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-# STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# comment this out 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# comment this out 
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC_URL = '/static/'
+
+# # Extra places for collectstatic to find static files.
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Comment this out
-
-
-
 

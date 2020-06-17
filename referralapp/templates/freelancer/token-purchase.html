@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../static/css/custom.css">
     </head>
     <br>
+    
 <div class="container">
   {% if messages %}
     
@@ -19,8 +20,13 @@
 </ul>
 </div>
 {% endif %}
+
  <b><u>   <h5>Choose a Pricing:</h5></u></b>
- <br>
+ <div class="alert alert-success alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+<strong>!</strong> On pressing the purchase button a pop up will appear on your phone prompting you to accept and make the payment.
+</div>  
+
     <div class="row">
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
         <div class="card mb-3">
@@ -29,7 +35,7 @@
         You get access to jobs posted. <br>
         You can submit offers on recent jobs. <br>
         This for anyone that just wants to try things out for the first time. <br>
-        **Total charge 235 KES(200 KES + Service fee)
+        **Total charge 235 KES(200 KES + process fee)
 
        
     </div>
@@ -43,7 +49,7 @@
          You get access to jobs posted. <br>
          You can submit offers on recent jobs. <br>
          You can submit offers on <strong>high paying jobs.</strong> <br>
-         **Total charge 885 KES(850 KES + Service fee)
+         **Total charge 885 KES(850 KES + process fee)
      </div>
      <div class="card-footer">
          <a href="{% url 'rave-medium-pay'  %}" class="btn btn-info btn-sm float-right" style="background-color: #13B5FA;">Buy 12 Eclid tokens</a>
@@ -55,7 +61,7 @@
         You get access to jobs posted. <br>
         You can submit offers on <strong> high paying jobs.</strong><br>
         You can submit offers on the <strong> top featured jobs.</strong> <br>
-        **Total charge 1545 KES(1500 KES + Service fee)
+        **Total charge 1545 KES(1500 KES + process fee)
      </div>
      <div class="card-footer">
          <a href="{% url 'rave-high-pay'  %}" class="btn btn-info btn-sm float-right" style="background-color: #13B5FA;">Buy 25 Eclid tokens</a>

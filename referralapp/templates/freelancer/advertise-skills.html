@@ -21,21 +21,27 @@
         </div>
     </div>
     <br>
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>!</strong> On pressing the purchase button a pop up will appear on your phone prompting you to accept and make the payment.
+      </div>  
+
     <div class="row">
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
             <div class="card">
                 <div class="card-body">
                     You can promote your <strong>awesome skill</strong> and get access to these features: <br>
-                    1. <strong>Your promoted skill features on Eclid workers Client page.</strong> <br>
+                    1. <strong>Your promoted skill features on EclidWorkers Client page.</strong> <br>
                     2. <strong>Get connected with potential clients</strong> <br>
                     3. Your post can run within our site for a month.<br>
                     4. Renewal is only  <strong>500 KES</strong> after the first month.<br>
                     5. <strong>Tools you need to start your career in freelance remote work.</strong> <br>
-                    6. <strong>No transaction fee.</strong> <br>
+                   
                     
                     <div class="row">
                         <div class="col text-center">
                       <a href="{% url 'pay-skill-promote' %}">Promote my skill for {{freelance_skills_amount}} KES.</a>
+                      <p class="text-secondary"> <p class="text-secondary">**Total charge 1035 KES(1000 KES + process fee)</p></p>
                      
                         </div>
                     </div>

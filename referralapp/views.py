@@ -337,12 +337,17 @@ def freelance_skills_post(request):
         post_skill = SkillPromotePayment.objects.get(user=request.user)
     except:
         post_skill = None
+    try:
+        profile = Profile.objects.get(user=request.user)
+    except:
+        profile = None
 
     if request.method == 'POST':
         form = FreelanceSkillAdvertiseForm(request.POST)
         if form.is_valid():
             skill = form.save(commit=False)
             skill.user = current_user
+            skill.profile = profile
             skill.save() 
             post_skill.user = current_user
             post_skill.skill_post_paid = False
@@ -388,12 +393,17 @@ def post_job(request):
         post_job = JobPayment.objects.get(user=request.user)
     except:
         post_job = None
+    try:
+        profile = Profile.objects.get(user=request.user)
+    except:
+        profile = None
 
     if request.method == 'POST':
         form = PostJobForm(request.POST)
         if form.is_valid():
             job = form.save(commit=False)
             job.user = current_user
+            job.profile = profile
             job.save() 
             post_job.user = current_user
             post_job.job_post_paid = False
@@ -520,10 +530,10 @@ def pay_low_token(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": '',
+    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
     "currency": "KES",
     "country": "KE",
-    "amount": "",
+    "amount": "235",
     "phonenumber": current_profile.phonenumber,
     "email": request.user.email,
     "txRef": current_profile.prof_ref,
@@ -532,7 +542,7 @@ def pay_low_token(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = ''
+    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -543,13 +553,13 @@ def pay_low_token(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": '',
+        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = ""
+    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
 
         # set the content type to application/json
     headers = {
@@ -571,7 +581,7 @@ def pay_medium_token(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": '',
+    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
     "currency": "KES",
     "country": "KE",
     "amount": "885",
@@ -583,7 +593,7 @@ def pay_medium_token(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = ''
+    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -594,13 +604,13 @@ def pay_medium_token(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": '',
+        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = ""
+    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
 
         # set the content type to application/json
     headers = {
@@ -622,7 +632,7 @@ def pay_high_token(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": '',
+    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
     "currency": "KES",
     "country": "KE",
     "amount": "1545",
@@ -634,7 +644,7 @@ def pay_high_token(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = ''
+    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -651,7 +661,7 @@ def pay_high_token(request):
     }
 
         # card charge endpoint
-    endpoint = ""
+    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
 
         # set the content type to application/json
     headers = {
@@ -672,7 +682,7 @@ def pay_post_job(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": '',
+    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
     "currency": "KES",
     "country": "KE",
     "amount": "1345",
@@ -684,7 +694,7 @@ def pay_post_job(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = ''
+    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -695,13 +705,13 @@ def pay_post_job(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": '',
+        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = ""
+    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
 
         # set the content type to application/json
     headers = {
@@ -723,7 +733,7 @@ def pay_business_promote(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": '',
+    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
     "currency": "KES",
     "country": "KE",
     "amount": "1035",
@@ -735,7 +745,7 @@ def pay_business_promote(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = ''
+    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -746,13 +756,13 @@ def pay_business_promote(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": '',
+        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = ""
+    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
 
         # set the content type to application/json
     headers = {
@@ -778,7 +788,7 @@ def pay_business_renewal(request,pk):
         business_to_renew = None
     
     data = {
-    "PBFPubKey": '',
+    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
     "currency": "KES",
     "country": "KE",
     "amount": "535",
@@ -790,7 +800,7 @@ def pay_business_renewal(request,pk):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = ''
+    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -801,13 +811,13 @@ def pay_business_renewal(request,pk):
 
         # payment payload
     payload = {
-        "PBFPubKey": '',
+        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = ""
+    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
 
         # set the content type to application/json
     headers = {
@@ -829,7 +839,7 @@ def pay_skill_promote(request):
         current_profile = None
     
     data = {
-    "PBFPubKey": '',
+    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
     "currency": "KES",
     "country": "KE",
     "amount": "1035",
@@ -841,7 +851,7 @@ def pay_skill_promote(request):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = ''
+    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -852,13 +862,13 @@ def pay_skill_promote(request):
 
         # payment payload
     payload = {
-        "PBFPubKey": '',
+        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = ""
+    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
 
         # set the content type to application/json
     headers = {
@@ -885,7 +895,7 @@ def pay_skill_renewal(request,pk):
         skill_to_renew = None
     
     data = {
-    "PBFPubKey": '',
+    "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
     "currency": "KES",
     "country": "KE",
     "amount": "535",
@@ -897,7 +907,7 @@ def pay_skill_renewal(request,pk):
     "is_mpesa_lipa": 1
     }
 
-    sec_key = ''
+    sec_key = 'FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X'
 
         # hash the secret key with the get hashed key function
     hashed_sec_key = getKey(sec_key)
@@ -908,13 +918,13 @@ def pay_skill_renewal(request,pk):
 
         # payment payload
     payload = {
-        "PBFPubKey": '',
+        "PBFPubKey": 'FLWPUBK-598d91106bd24476ed494f86531cbeb0-X',
         "client": encrypt_3DES_key,
         "alg": "3DES-24",
     }
 
         # card charge endpoint
-    endpoint = ""
+    endpoint = "https://api.ravepay.co/flwv3-pug/getpaidx/api/charge"
 
         # set the content type to application/json
     headers = {
@@ -938,10 +948,10 @@ def verify_token_transaction(request):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "",
+    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
     }
 
-    url = ""
+    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
 
     #make the http post request to our server with the parameters
     
@@ -994,7 +1004,7 @@ def verify_token_transaction(request):
         messages.warning(request, 'Insufficient M-pesa balance.Kindly top up and try again.') 
         return redirect('token-purchase')
     else:
-        messages.warning(request, 'Payment has been initiated.Kindly do not make another payment if you have received a confirmation from Mpesa.We will notify you when we have received the transaction.') 
+        messages.warning(request, 'Payment has been initiated.We will notify you when we have received the transaction.') 
         return redirect('token-low')
 
 @login_required
@@ -1006,10 +1016,10 @@ def verify_job_transaction(request):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "",
+    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
     }
 
-    url = ""
+    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
 
     #make the http post request to our server with the parameters
     
@@ -1041,7 +1051,7 @@ def verify_job_transaction(request):
         messages.warning(request, 'Insufficient M-pesa balance.Kindly top up and try again.') 
         return redirect('post-job')
     else:
-        messages.warning(request, 'Payment has been initiated.Kindly do not make another payment if you have received a confirmation from Mpesa.We will notify you when we have received the transaction.') 
+        messages.warning(request, 'Payment has been initiated.We will notify you when we have received the transaction.') 
         return redirect('post-job-purchase')
 
 
@@ -1055,10 +1065,10 @@ def verify_business_transaction(request):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "",
+    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
     }
 
-    url = ""
+    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
 
     #make the http post request to our server with the parameters
     
@@ -1089,7 +1099,7 @@ def verify_business_transaction(request):
         messages.warning(request, 'Insufficient M-pesa balance.Kindly top up and try again.') 
         return redirect('digital-media')
     else:
-        messages.warning(request, 'Payment has been initiated.Kindly do not make another payment if you have received a confirmation from Mpesa.We will notify you when we have received the transaction.') 
+        messages.warning(request, 'Payment has been initiated.We will notify you when we have received the transaction.') 
         return redirect('digital-job-purchase')
     
 
@@ -1102,10 +1112,10 @@ def verify_business_renewal(request,pk):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "",
+    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
     }
 
-    url = ""
+    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
 
     #make the http post request to our server with the parameters
     
@@ -1133,7 +1143,7 @@ def verify_business_renewal(request,pk):
         messages.warning(request, 'Insufficient M-pesa balance.Kindly top up and try again.') 
         return redirect('promoted-business-user',request.user.username)
     else:
-        messages.warning(request, 'Payment has been initiated.Kindly do not make another payment if you have received a confirmation from Mpesa.We will notify you when we have received the transaction.') 
+        messages.warning(request, 'Payment has been initiated.We will notify you when we have received the transaction.') 
         return redirect('confirm-business-renewal',business_to_renew.id)
 
 
@@ -1148,10 +1158,10 @@ def verify_skill_transaction(request):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "",
+    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
     }
 
-    url = ""
+    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
 
     #make the http post request to our server with the parameters
     
@@ -1183,7 +1193,7 @@ def verify_skill_transaction(request):
         messages.warning(request, 'Insufficient M-pesa balance.Kindly top up and try again.') 
         return redirect('freelance-skill-post')
     else:
-        messages.warning(request, 'Payment has been initiated.Kindly do not make another payment if you have received a confirmation from Mpesa.We will notify you when we have received the transaction.') 
+        messages.warning(request, 'Payment has been initiated.We will notify you when we have received the transaction.') 
         return redirect('freelance-skill-purchase')
     
 
@@ -1197,10 +1207,10 @@ def verify_skill_renewal(request,pk):
         current_profile = None
     data = {
     "txref": current_profile.prof_ref, #this is the reference from the payment button response after customer paid.
-    "SECKEY": "",
+    "SECKEY": "FLWSECK-c2a456efd68204aa7f2ee92d5ba61b55-X",
     }
 
-    url = ""
+    url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify"
 
     #make the http post request to our server with the parameters
     
@@ -1226,7 +1236,7 @@ def verify_skill_renewal(request,pk):
         messages.warning(request, 'Insufficient M-pesa balance.Kindly top up and try again.') 
         return redirect('promoted-skill-user',request.user.username)
     else:
-        messages.warning(request, 'Payment has been initiated.Kindly do not make another payment if you have received a confirmation from Mpesa.We will notify you when we have received the transaction.') 
+        messages.warning(request, 'Payment has been initiated.We will notify you when we have received the transaction.') 
         return redirect('confirm-skill-renewal',skill_to_renew.id)
 
 

@@ -3,7 +3,15 @@ from django.contrib.auth.models import User
 from datetime import timedelta
 from django.utils import timezone
 
+class Profile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
+	phonenumber = models.CharField(verbose_name="phone_number", max_length=12,null=True)
+	prof_ref = models.CharField(max_length=10,null=True,default='indigo')
+	bio = models.TextField(blank=True)
 
+
+	def __str__(self):
+		return self.user.username
 
 class Job(models.Model):
 	JOB_CATEGORIES = [
@@ -23,6 +31,7 @@ class Job(models.Model):
 	job_requirements = models.TextField(blank=True)
 	job_category = models.PositiveIntegerField(default=0,choices=JOB_CATEGORIES,null=True)
 	job_link = models.CharField(max_length=50,blank=True)
+	profile = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True)
 	creation_date = models.DateTimeField(auto_now_add=True,null=True)
 
 	def __str__(self):
@@ -34,15 +43,7 @@ class Job(models.Model):
 		verbose_name_plural = "Jobs"
 
 
-class Profile(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
-	phonenumber = models.CharField(verbose_name="phone_number", max_length=12,null=True)
-	prof_ref = models.CharField(max_length=10,null=True,default='indigo')
-	bio = models.TextField(blank=True)
 
-
-	def __str__(self):
-		return self.user.username
 
 
 class MerchantPromote(models.Model):
@@ -83,6 +84,7 @@ class FreelanceSkills(models.Model):
 	freelance_description = models.TextField(blank=True)
 	freelance_charge = models.PositiveIntegerField(default=0,null=True)
 	freelance_link = models.CharField(max_length=100,blank=True)
+	profile = models.ForeignKey(Profile,on_delete=models.CASCADE,null=True)
 	expiry_date = models.DateTimeField(default=timezone.now()+timedelta(days=30))
 	
 

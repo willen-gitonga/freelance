@@ -110,7 +110,7 @@ class PostJobForm(forms.ModelForm):
 		self.fields['upper_limit'].label = 'Highest amount you will be paying top candidates? - KES'
 		self.fields['upper_limit'].required = True
 		
-		self.fields['job_category'].label = 'Choose a category for your project from the list'
+		self.fields['job_category'].label = 'Choose a category for your project from the list below'
 		self.fields['job_category'].required = True
 
 		self.fields['job_link'].widget.attrs = {
@@ -157,8 +157,8 @@ class DigitalMediaForm(forms.ModelForm):
 		self.fields['business_link'].label = ''
 		self.fields['business_link'].required = True
 		self.fields['business_link'].help_text = 'This is a link to your online store,site or social media page.You can only paste one link.Product does not only apply to tangible goods.'
-
-		self.fields['business_product'].label = 'Image of product your business sells'
+		
+		self.fields['business_product'].label = 'Image of a product your business sells'
 		self.fields['business_product'].required = True
 		self.fields['business_product'].help_text = 'Maximum image size 200KB.jpg,jpeg,png only'
 
