@@ -1,0 +1,77 @@
+{%extends 'base.html'%}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{{block.super}}
+
+<head>
+    
+    <link rel="stylesheet" href="../../static/css/custom.css">
+    <link rel="stylesheet" href="../../static/css/reg.css">
+</head>
+
+<br><br>
+<div class="container">
+    <strong><h3 style="text-align: center;">How can we get you started off today {{request.user.last_name}}?</h3></strong>
+
+    <div class="row">
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+            <br>
+        <div class="card mb-3" style="max-width: 100%;border-radius: 20px;" >
+        <div class="card-body">
+            <div class="card-text" style="font-size: 14px;">
+              <strong>"Get the top talent working on every project."</strong>
+                <br><br><br>
+                <a href="{% url 'post-job'  %}" class="btn btn-info btn-block loginbtn2">Post A Project</a>
+            </div>
+        </div>
+        </div>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+            <br>
+        <div class="card mb-3" style="max-width: 100%;border-radius: 20px;" >
+        <div class="card-body">
+            <div class="card-text" style="font-size: 14px;">
+              <strong>"Get user views & employers looking for you."</strong>
+                <br><br>
+                <a href="{% url 'freelance-skill-post' %}" class="btn btn-info btn-block loginbtn2">Promote my Skills</a>
+            </div>
+        </div>
+        </div>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+            <br>
+        <div class="card mb-3" style="max-width: 100%;border-radius: 20px;" >
+        <div class="card-body">
+            <div class="card-text" style="font-size: 14px;">
+              <strong>"Get the right customers for your business."</strong>
+              <br><br><br>
+                <a href="{% url 'digital-media'  %}" class="btn btn-info btn-block loginbtn2">Promote my Businesses</a>
+            </div>
+        </div>
+        </div>
+        </div>
+        
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+            <br>
+        <div class="card mb-3" style="max-width: 100%;border-radius: 20px;" >
+        <div class="card-body">
+            <div class="card-text" style="font-size: 14px;">
+              <strong>"Work on a large variety of project based jobs"</strong>
+                <br><br>
+                <a href="{% url 'job-page'  %}" class="btn btn-info btn-block loginbtn2">Start Working</a>
+            </div>
+        </div>
+        </div>
+        </div>
+        
+
+    </div>
+</div>  
+
+
+
+{% endblock %}

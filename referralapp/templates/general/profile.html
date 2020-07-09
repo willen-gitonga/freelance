@@ -39,7 +39,7 @@
 
       <h6 class="text-secondary">Joined: {{request.user.date_joined}}</h6>
       <h6 class="text-secondary">Activity: <i class="fa fa-circle" style="color:lawngreen;font-size: small;"></i>online.</h6>
-     <a href="{% url 'digital-nomad' %}">Become an Eclid DigiNomad.</a>
+     <a href="{% url 'digital-nomad' %}">Join our member community.</a>
 
 
     </div>
@@ -74,7 +74,7 @@
                     <form  method="POST" enctype="multipart/form-data" >
                       {% csrf_token %}
                       {% bootstrap_form prof_form%}
-                      <button class="btndis2 btn btn-sm" type="submit"> Change phone number</button>
+                      <button class="btndis2 btn btn-sm" type="submit"> Change number</button>
           
               </form>
               <br>

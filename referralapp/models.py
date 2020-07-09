@@ -67,6 +67,7 @@ class FreelanceSkills(models.Model):
 		(1,'Design & Creatives'),
 		(2,'Marketing'),
 		(3,'Websties & IT'),
+		(14,'Blogging/Podcast'),
 		(4,'Accounting'),
 		(5,'Legal'),
 		(6,'Business Consulting'),

@@ -3,6 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from .views import (
+    choose_service,
     pay_low_token,pay_medium_token,pay_high_token,verify_token_transaction,
     pay_business_promote,verify_business_transaction,pay_business_renewal,confirm_business_renewal,
     verify_business_renewal,
@@ -12,7 +13,7 @@ from .views import (
     signup,
     pagenotfound,sort_price_highest,
     token_purchase,confirm_purchase,
-    post_job,post_job_purchase,work_place,post_digital_job,digital_job_purchase,
+    post_job,post_job_purchase,post_digital_job,digital_job_purchase,
     received_quotes,posted_job_user,sent_quotes,
 
     #Sorted jobs for users to view
@@ -31,6 +32,7 @@ from .views import (
 urlpatterns = [
     path('',HomePageView.as_view(),name='home'),
     path('signup/', signup, name="signup"),
+    path('service/select',choose_service,name='choose-service'),
     path('dashboard/<slug>/',profile_dashboard,name='profile-dashboard'),
     path('jobs/SORT=new/',jobs,name='job-page'),
     path('jobs/SORT=pay/',sort_price_highest,name='job-sort'),
@@ -61,7 +63,6 @@ urlpatterns = [
     path('promote/skill/purchase',freelance_skill_purchase,name='freelance-skill-purchase'),
     path('promoted/skills',all_promoted_skills,name='promoted-skills'),
     #url for social media adverts/jobs and promote businesses
-    path('myworkplace/',work_place,name='work-place'),
     path('promote/post',post_digital_job,name='digital-media'),
     path('promote/validate',digital_job_purchase,name='digital-job-purchase'),
    

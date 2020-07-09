@@ -8,29 +8,12 @@
     <link rel="stylesheet" href="../../static/css/custom.css">
     </head>
     <br><br>
-    <div class="container">
-            <div class="row">
-                <div class="col text-center">
-                    <div class="card">
-                        <div class="card-body">                    <a href="{% url 'posted-jobs-user'  %}">
-                    <i class="fa fa-bookmark-o" style="font-size:36px;color: #13B5FA;"></i>
-                    <strong><p style="color: black;">Posted projects.</p></strong>
-                </a>
-                  
-                </div>
-            </div>
-            <br>
-                </div>
-            </div>
     
-        
-    </div>
 {% if job_quotes_count == 0%}
 <div class="container">
     <h5 style="text-align: center;">You have not received any offers on any projects posted.</h5>
 <h5 style="text-align: center;">Offers on projects you have posted will appear here. <br> <br>
 
-    <a href="{% url 'post-job'  %}" style="text-align: center;">Post a project and work with top freelancers.</a>
 </h5>
 
 </div>

@@ -135,7 +135,7 @@ class DigitalMediaForm(forms.ModelForm):
 
 		self.fields['business_description'].widget.attrs = {
 			'style':'height:240px;',
-			'placeholder': 'Description of what products you sell.Show that the quality of your products is superb and the prices are pocket friendly to customers.You can also include where you are based.',
+			'placeholder': 'Description of what products you sell.Show that the quality of your products is superb and the prices are pocket friendly to customers.Also include where you are based.',
 		}
 		self.fields['business_description'].label = ''
 		self.fields['business_description'].required = True
