@@ -20,8 +20,8 @@ import referralapp
 
 
 urlpatterns = [
-    # path('dufeingergrenfisch45/', admin.site.urls),
-    path('admin/', admin.site.urls),
+    path('dufeingergrenfisch45/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('',include('referralapp.urls')),
     path('accounts/',include('django.contrib.auth.urls')), 
 ]
