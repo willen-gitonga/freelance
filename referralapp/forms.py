@@ -236,7 +236,7 @@ class ProfileCreationForm(forms.ModelForm):
 		super(ProfileCreationForm, self).__init__(*args, **kwargs)
 		self.fields['bio'].widget.attrs = {
 			'style':'height:240px;',
-			'placeholder': 'Write your bio highlighting how fast you can complete a task and the quality of your work.',
+			'placeholder': 'Write your bio highlighting how fast you can complete a job and the quality of your work.This also attracts project owners.',
 		}
 		self.fields['bio'].label = ''
 		self.fields['bio'].required = True

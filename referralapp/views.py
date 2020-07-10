@@ -70,6 +70,16 @@ def signup(request):
     return render(request, "registration/signup.html", context)
 
 @login_required
+def partner_invite(request,slug):
+    try:
+        user = User.objects.get(last_name=slug)
+    except:
+        return HttpResponseRedirect(reverse('404page'))
+
+    return redirect ('signup')
+
+
+@login_required
 def choose_service(request):
 
     return render(request,'choose-service.html')

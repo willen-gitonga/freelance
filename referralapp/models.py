@@ -17,7 +17,7 @@ class Job(models.Model):
 	JOB_CATEGORIES = [
 		(1,'IT & Software Development'),
 		(2,'Products & Services'),
-		(3,'Marketing Strategy & Research'),
+		(3,'Marketing'),
 		(4,'Writing & Transcription'),
 		(5,'Business & Customer Service'),
 		(6,'Agents & Referral Services'),
