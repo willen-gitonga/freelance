@@ -100,7 +100,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME':'digitalnorm',
         'USER':'kratosavenger',
-        'PASSWORD':'kratosavenge', 
+        'PASSWORD':'kratosolympus', 
 
     }
 }
