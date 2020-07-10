@@ -99,8 +99,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME':'digitalnorm',
-        'USER':'kratostitan',
-        'PASSWORD':'olympusfalxyed', 
+        'USER':'kratosavenger',
+        'PASSWORD':'kratosavenge', 
 
     }
 }
