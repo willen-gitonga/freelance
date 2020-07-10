@@ -25,6 +25,8 @@ SECRET_KEY = '2ig)z%6dk=4tq0c7z$&nh+66v#%7*$#2av^m2bc1kie=6kdty&'
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
+
+
 # ALLOWED_HOSTS = []
 
 DEBUG = False
@@ -44,7 +46,7 @@ INSTALLED_APPS = [
     'referralapp',
     'bootstrap4',  
     'mathfilters', 
-    'pwa',
+
    
 ]
 
@@ -99,8 +101,6 @@ DATABASES = {
         'NAME':'digitalnorm',
         'USER':'kratostitan',
         'PASSWORD':'olympusfalxyed', 
-        'HOST':'localhost',
-        'PORT':''
 
     }
 }
