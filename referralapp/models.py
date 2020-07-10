@@ -24,10 +24,17 @@ class Job(models.Model):
 		(7,'Data Entry'),
 		(8,'Other')
 	]
+	JOB_LIMIT_CHOICES = [
+		(1,'KES 2,000 - 10,000'),
+		(2,'KES 20,000 - 50,000'),
+		(3,'KES 50,000 - 100,000'),
+		(4,'KES 100,000 - 500,000'),
+		(5,'KES 500,000 - 1,000,000'),
+
+	]
 	user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
 	job_title = models.CharField(max_length=60,blank=True)
-	lower_limit = models.PositiveIntegerField(default=0,null=True)
-	upper_limit = models.PositiveIntegerField(default=0,null=True)
+	upper_limit = models.PositiveIntegerField(default=0,choices=JOB_LIMIT_CHOICES,null=True)
 	job_requirements = models.TextField(blank=True)
 	job_category = models.PositiveIntegerField(default=0,choices=JOB_CATEGORIES,null=True)
 	job_link = models.CharField(max_length=50,blank=True)

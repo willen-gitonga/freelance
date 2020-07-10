@@ -103,11 +103,8 @@ class PostJobForm(forms.ModelForm):
 		self.fields['job_title'].help_text = 'The title can be something like: I need a software designed'
 
 
-		self.fields['lower_limit'].label = 'Least amount you will be paying top candidates? - KES'
-		self.fields['lower_limit'].required = True
-
 		
-		self.fields['upper_limit'].label = 'Highest amount you will be paying top candidates? - KES'
+		self.fields['upper_limit'].label = 'How much will you be spending? - KES'
 		self.fields['upper_limit'].required = True
 		
 		self.fields['job_category'].label = 'Choose a category for your project from the list below'
@@ -121,10 +118,9 @@ class PostJobForm(forms.ModelForm):
 		self.fields['job_link'].required = False
 		self.fields['job_link'].help_text = 'This can be a link to any sample project.You can only paste one link.'
 
-
 	class Meta:
 		model = Job
-		fields = ('job_title','job_category','job_requirements','job_link','lower_limit','upper_limit')
+		fields = ('job_title','job_category','job_requirements','job_link','upper_limit')
 
 
 class DigitalMediaForm(forms.ModelForm):
