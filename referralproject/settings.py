@@ -101,6 +101,8 @@ DATABASES = {
         'NAME':'digitalnomad',
         'USER':'kratosavenger',
         'PASSWORD':'kratosolympus', 
+        'HOST': 'localhost',
+        'PORT': '',
 
     }
 }
