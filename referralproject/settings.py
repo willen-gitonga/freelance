@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2ig)z%6dk=4tq0c7z$&nh+66v#%7*$#2av^m2bc1kie=6kdty&'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
@@ -28,7 +28,7 @@ SECRET_KEY = '2ig)z%6dk=4tq0c7z$&nh+66v#%7*$#2av^m2bc1kie=6kdty&'
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['eclidworkers.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -83,26 +83,7 @@ WSGI_APPLICATION = 'referralproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME':'referralapp',
-#         'USER':'willen',
-#         'PASSWORD':'phyc@#c4d', 
-#     }
-# }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':'digitalnomad',
-        'USER':'kratosavenger',
-        'PASSWORD':'kratosolympus', 
-        'HOST': 'localhost',
-        'PORT': '',
-
-    }
-}
 
 
 
